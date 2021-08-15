@@ -131,6 +131,7 @@ class AlgorandController extends GetxController {
       // Wait until the transaction is confirmed
       await algorand.waitForConfirmation(txId);
       dismissLoading();
+       Get.snackbar("Success!", "Payment Completed");
 
       
     } catch (e) {

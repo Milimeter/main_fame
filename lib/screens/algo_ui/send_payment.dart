@@ -85,6 +85,8 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
                     _algorandController.sendPayment(
                         amount: amount,
                         recipientAddress: recipientController.text);
+                  }else{
+                    Get.snackbar("Error!", "Invalid Algorand Address");
                   }
                 },
                 child: Container(
