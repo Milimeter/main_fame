@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 
@@ -20,7 +21,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Icons.arrow_back,
             color: kPrimaryColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
         ),
         // actions: [
         //   IconButton(
@@ -107,7 +110,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     labelText: "Add Bio",
-                    hintText: '    Add your Bio',
+                    hintText: '    ${userController.userData.value.bio}',
                     contentPadding: EdgeInsets.only(bottom: 3),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     hintStyle: TextStyle(

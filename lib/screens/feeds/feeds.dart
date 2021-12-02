@@ -435,13 +435,13 @@ class _FeedsState extends State<Feeds> {
                       height: 400.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[200],
-                            offset: Offset(0.0, 8.0),
-                            blurRadius: 8.0,
-                          ),
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.grey[200],
+                        //     offset: Offset(0.0, 8.0),
+                        //     blurRadius: 8.0,
+                        //   ),
+                        // ],
                         image: DecorationImage(
                           image: NetworkImage(list[index].get('imgUrl')),
                           fit: BoxFit.fitWidth,

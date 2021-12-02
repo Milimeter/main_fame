@@ -1,8 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:login_signup_screen/model/user_data.dart';
+import 'package:login_signup_screen/screens/profile/chat_user_profile.dart';
 import 'package:login_signup_screen/widgets/algo_app_bar/app_bar_network_rounded_image.dart';
 
 class MessengerAppBarAction extends StatefulWidget {
@@ -12,6 +12,7 @@ class MessengerAppBarAction extends StatefulWidget {
   bool isBack;
   String subTitle;
   String imageUrl;
+  UserData receiver;
 
   MessengerAppBarAction({
     this.actions,
@@ -20,6 +21,7 @@ class MessengerAppBarAction extends StatefulWidget {
     this.isBack,
     this.subTitle,
     this.imageUrl,
+    this.receiver,
   });
 
   @override
@@ -60,8 +62,13 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
               Container(
                 width: 16.0,
               ),
-              AppBarNetworkRoundedImage(
-                imageUrl: widget.imageUrl,
+              GestureDetector(
+                onTap: () {
+                  Get.to(ChatUserProfile(receiver: widget.receiver));
+                },
+                child: AppBarNetworkRoundedImage(
+                  imageUrl: widget.imageUrl,
+                ),
               ),
               SizedBox(
                 width: 10.0,

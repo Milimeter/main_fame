@@ -268,12 +268,13 @@ class _ChatScreenState extends State<ChatScreen> {
       isBack: true,
       title: widget.receiver.name,
       imageUrl: widget.receiver.profilePhoto,
+      receiver: widget.receiver,
       subTitle: 'Active',
       actions: <Widget>[
         IconButton(
           icon: Icon(
-            FontAwesomeIcons.phoneAlt,
-            color: Colors.lightBlue,
+            FontAwesomeIcons.video,
+            color: kPrimaryColor,
             size: 20.0,
           ),
           onPressed: () async =>
@@ -285,9 +286,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       callis: "video")
                   : null,
         ),
+        IconButton(
+            icon: Icon(
+              FontAwesomeIcons.phoneAlt,
+              color: kPrimaryColor,
+              size: 20.0,
+            ),
+            onPressed: () async {
+              // await Permissions.cameraAndMicrophonePermissionsGranted()
+              //     ? CallUtils.dialVoice(
+              //         from: sender,
+              //         to: widget.receiver,
+              //         context: context,
+              //         callis: "voice")
+              //     : null;
+            }),
         Icon(
           FontAwesomeIcons.infoCircle,
-          color: Colors.lightBlue,
+          color: kPrimaryColor,
           size: 20.0,
         ),
       ],
@@ -374,7 +390,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   icon: Icon(
                     FontAwesomeIcons.meteor,
                     size: 25.0,
-                    color: Colors.lightBlue,
+                    color: kPrimaryColor,
                   ),
                   onPressed: () {
                     Get.snackbar("Message", "Feature Coming Soon :)");
@@ -412,7 +428,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           icon: Icon(
                             FontAwesomeIcons.solidSmileBeam,
                             size: 25.0,
-                            color: Colors.lightBlue,
+                            color: kPrimaryColor,
                           ),
                           onPressed: () {
                             if (!showEmojiPicker) {
@@ -442,7 +458,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         icon: Icon(
                           FontAwesomeIcons.paperPlane,
                           size: 25.0,
-                          color: Colors.lightBlue,
+                          color: kPrimaryColor,
                         ),
                       ),
                     )
@@ -471,7 +487,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: Icon(
                           Icons.settings_input_svideo,
                           size: 25.0,
-                          color: Colors.lightBlue,
+                          color: kPrimaryColor,
                         ),
                       )),
             ],
