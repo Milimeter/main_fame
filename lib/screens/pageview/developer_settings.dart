@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:login_signup_screen/screens/control/algorand_setup.dart';
+import 'package:login_signup_screen/screens/profile/edit_profile.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/widgets/algo_transact_widget.dart';
 
@@ -84,7 +85,7 @@ class DeveloperSettings extends StatelessWidget {
                   title: "Modify",
                   subtitle: "Tap to change your data",
                   onTap: () {
-                    print("OK");
+                    Get.to(EditProfilePage());
                   },
                 ),
               ),
@@ -145,6 +146,19 @@ class DeveloperSettings extends StatelessWidget {
                           title: 'Receive Algo',
                           subtitle: "Add more Algorand to your wallet",
                         ),
+                  SettingsItem(
+                    onTap: () {
+                      Get.to(AlgorandSetup());
+                    },
+                    icons: Entypo.creative_commons_public_domain,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: kPrimaryColor,
+                    ),
+                    title: 'FAME',
+                    subtitle: "Setup your Fame Wallet",
+                  ),
                   userController.userData.value.publicAddress.isNotEmpty
                       ? SettingsItem(
                           onTap: () {
@@ -168,37 +182,37 @@ class DeveloperSettings extends StatelessWidget {
                         ),
                   SettingsItem(
                     onTap: () {},
-                    icons: CupertinoIcons.pencil_outline,
+                    icons: Entypo.cog,
                     iconStyle: IconStyle(),
-                    title: 'Appearance',
-                    subtitle: "Change your display settings",
+                    title: 'Advanced',
+                    subtitle: "Access advanced settings",
                   ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Icons.fingerprint,
-                    iconStyle: IconStyle(
-                      iconsColor: Colors.white,
-                      withBackground: true,
-                      backgroundColor: Colors.red,
-                    ),
-                    title: 'Privacy',
-                    subtitle: "Lock FameFarm to improve your privacy",
-                  ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Icons.dark_mode_rounded,
-                    iconStyle: IconStyle(
-                      iconsColor: Colors.white,
-                      withBackground: true,
-                      backgroundColor: Colors.red,
-                    ),
-                    title: 'Dark mode',
-                    subtitle: "Automatic",
-                    trailing: Switch.adaptive(
-                      value: false,
-                      onChanged: (value) {},
-                    ),
-                  ),
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: Icons.fingerprint,
+                  //   iconStyle: IconStyle(
+                  //     iconsColor: Colors.white,
+                  //     withBackground: true,
+                  //     backgroundColor: Colors.red,
+                  //   ),
+                  //   title: 'Privacy',
+                  //   subtitle: "Lock FameFarm to improve your privacy",
+                  // ),
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: Icons.dark_mode_rounded,
+                  //   iconStyle: IconStyle(
+                  //     iconsColor: Colors.white,
+                  //     withBackground: true,
+                  //     backgroundColor: Colors.red,
+                  //   ),
+                  //   title: 'Dark mode',
+                  //   subtitle: "Automatic",
+                  //   trailing: Switch.adaptive(
+                  //     value: false,
+                  //     onChanged: (value) {},
+                  //   ),
+                  // ),
                 ],
               ),
               SettingsGroup(

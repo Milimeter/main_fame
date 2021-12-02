@@ -21,7 +21,8 @@ class _PhoneInputState extends State<PhoneInput> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(children: [
+          Column(
+            children: [
             Container(
               margin: EdgeInsets.only(top: 60), 
               child: Center(

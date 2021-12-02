@@ -18,7 +18,7 @@ class _OTPScreenState extends State<OTPScreen> {
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
   final BoxDecoration pinPutDecoration = BoxDecoration(
-    color:  kPrimaryColor.withOpacity(0.6),
+    color: kPrimaryColor.withOpacity(0.6),
     borderRadius: BorderRadius.circular(10.0),
     border: Border.all(
       color: kPrimaryColor,
@@ -106,6 +106,7 @@ class _OTPScreenState extends State<OTPScreen> {
           print(e.message);
         },
         codeSent: (String verficationID, int resendToken) {
+          print(_verificationCode);
           setState(() {
             _verificationCode = verficationID;
           });

@@ -114,7 +114,20 @@ class _FeedsState extends State<Feeds> {
           centerTitle: true,
           elevation: 1.0,
           // leading: new Icon(Icons.camera_alt),
-          title: GestureDetector(
+          title: Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: IconButton(
+                icon: Icon(
+                  Entypo.magnifying_glass,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => Search())));
+                },
+              ),
+            ),
+          leading: GestureDetector(
             onTap: () => Get.to(ProfileScreen()),
             child: CachedImage(
               //pass to profile of the receiver
@@ -137,19 +150,19 @@ class _FeedsState extends State<Feeds> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: IconButton(
-                icon: Icon(
-                  Entypo.magnifying_glass,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => Search())));
-                },
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.only(right: 12.0),
+            //   child: IconButton(
+            //     icon: Icon(
+            //       Entypo.magnifying_glass,
+            //       color: Colors.black,
+            //     ),
+            //     onPressed: () {
+            //       Navigator.push(context,
+            //           MaterialPageRoute(builder: ((context) => Search())));
+            //     },
+            //   ),
+            // )
           ],
         ),
         floatingActionButton: Container(
