@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
+import 'package:login_signup_screen/constants/firebase.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -10,6 +15,50 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   bool showPassword = false;
+  TextEditingController bio = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController location = TextEditingController();
+  uploadData() {
+    var data = {
+      "name": name.text.trim(),
+      "bio": bio.text.trim(),
+      "location": location.text.trim(),
+    };
+    firebaseFirestore
+        .collection("users")
+        .doc(userController.userData.value.uid)
+        .update(data)
+        .then((value) => Get.back());
+  }
+
+  Future<String> uploadImageToStorage(File imageFile) async {
+    // mention try catch later on
+    Reference _storageReference;
+
+    try {
+      _storageReference = FirebaseStorage.instance
+          .ref()
+          .child('${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask storageUploadTask = _storageReference.putFile(imageFile);
+      var url = await (await storageUploadTask).ref.getDownloadURL();
+      // log(url);
+      return url;
+    } catch (e) {
+      // log(e.toString());
+      throw e.toString();
+    }
+  }
+
+  final ImagePicker _picker = ImagePicker();
+
+  pickImage() async {
+    final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      Get.snackbar("Uplading", "Image is being uploaded");
+      uploadImageToStorage(File(image.path));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,26 +105,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Center(
                 child: Stack(
                   children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
-                              ))),
+                    GestureDetector(
+                      onTap: () {
+                        pickImage();
+                      },
+                      child: Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 4,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 2,
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: Offset(0, 10))
+                            ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                ))),
+                      ),
                     ),
                     Positioned(
                         bottom: 0,
@@ -105,6 +160,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 35.0),
                 child: TextFormField(
+                  controller: bio,
                   minLines: 2,
                   maxLines: 5,
                   keyboardType: TextInputType.multiline,
@@ -125,12 +181,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               buildTextField(
-                  "Full Name", userController.userData.value.name, false),
-              buildTextField(
-                  "E-mail", userController.userData.value.email, false),
-              buildTextField(
-                  "Password", userController.userData.value.password, true),
-              buildTextField("Location", " ", false),
+                  "Full Name", userController.userData.value.name, false, name),
+              // buildTextField(
+              //     "E-mail", userController.userData.value.email, false, email),
+
+              buildTextField("Location", " ", false, location),
               SizedBox(
                 height: 35,
               ),
@@ -149,7 +204,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             color: Colors.black)),
                   ),
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (name.text.trim() != "" &&
+                          location.text.trim() != "" &&
+                          bio.text.trim() != "") {
+                        Get.snackbar("error", "All Fields cannot be empty");
+                      } else {
+                        uploadData();
+                      }
+                    },
                     color: kPrimaryColor,
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     elevation: 2,
@@ -172,11 +235,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+  Widget buildTextField(String labelText, String placeholder,
+      bool isPasswordTextField, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
+      child: TextFormField(
+        controller: controller,
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
