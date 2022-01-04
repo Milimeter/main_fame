@@ -15,7 +15,7 @@ class _AlgoWebState extends State<AlgoWeb> {
         child: Stack(
           children: <Widget>[
             WebView(
-              initialUrl: "https://Algofame.org",
+              initialUrl: "https://jaysource-35af0.web.app/",
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (finish) {
                 setState(() {

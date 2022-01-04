@@ -243,6 +243,7 @@ class Message {
     this.photoUrl = map['photoUrl'];
     this.isRead = map['isRead'];
     this.idFrom = map['idFrom'];
+    this.gif = map['gif'];
     this.replyMessage = map['replyMessage'] == null
         ? null
         : Message.fromMap(map['replyMessage']);

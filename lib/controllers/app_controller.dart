@@ -13,7 +13,7 @@ class AppController extends GetxController {
   void onReady() {
     super.onReady();
     _getdeviceToken();
-    sendData();
+    //sendData();
     Future.delayed(Duration(milliseconds: 500), () {
       firebaseMessaging.requestPermission(
           sound: true, badge: true, alert: true);

@@ -27,6 +27,7 @@ import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
 
+
 class Feeds extends StatefulWidget {
   @override
   _FeedsState createState() => _FeedsState();
@@ -80,7 +81,7 @@ class _FeedsState extends State<Feeds> {
         });
       }
     }
-    _future = _feedsController.fetchFeed(currentUser);
+    _future = _feedsController.fetchFeed(currentUser); 
   }
 
   bool builds = false;

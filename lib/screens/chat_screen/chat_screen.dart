@@ -60,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // Random ID
   String randomId = "";
 
-  String giphy_api_key = "2PYHrwxivsewrKhB3fgSsra9a4If62Y7";
+  String giphy_api_key = "2u6gEx2yb664HZ0jO6zuJ4gzPVSuRhc2";
   bool _isGiphyOptionClicked = false;
 
   @override
@@ -699,12 +699,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * 0.65),
                     decoration: BoxDecoration(
-                      color: smessage.type == 'sticker'
+                      color: smessage.type == 'sticker'|| smessage.type == 'gif'
                           ? Colors.transparent
                           : Colors.blue,
                       boxShadow: [
                         BoxShadow(
-                          color: smessage.type == 'sticker'
+                          color: smessage.type == 'sticker' || smessage.type == 'gif'
                               ? Colors.transparent
                               : Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
@@ -772,7 +772,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           : Colors.blue,
                       boxShadow: [
                         BoxShadow(
-                          color: smessage.type == 'sticker'
+                          color: smessage.type == 'sticker' || smessage.type == 'gif'
                               ? Colors.transparent
                               : Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
@@ -1063,10 +1063,8 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     } else if (message.type == "gif") {
       print(">>>>>>>>>>>>>>gif  message");
-      print(message.gif);
-      message.gif == null
-          ? Container()
-          : ClipRRect(
+      print("git here ===================${message.gif}");
+      return ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 message.gif,

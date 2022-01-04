@@ -187,12 +187,12 @@ class FeedsController extends GetxController {
       followingUIDs.add(querySnapshot.docs[i].id);
     }
 
-    print(
-        "===============FOLLOWING UIDS : ${followingUIDs.length}================");
+    // print(
+    //     "===============FOLLOWING UIDS : ${followingUIDs.length}================");
 
     for (var i = 0; i < followingUIDs.length; i++) {
-      print(
-          "=========================SDDSSD : ${followingUIDs[i]}===================");
+      // print(
+      //     "=========================SDDSSD : ${followingUIDs[i]}===================");
 
       //retrievePostByUID(followingUIDs[i]);
       // fetchUserDetailsById(followingUIDs[i]);
@@ -204,11 +204,21 @@ class FeedsController extends GetxController {
           .get();
       // postSnapshot.documents;
       for (var i = 0; i < postSnapshot.docs.length; i++) {
-        print("==============dad : ${postSnapshot.docs[i].id}===========");
+        //  print("==============dad : ${postSnapshot.docs[i].id}===========");
         list.add(postSnapshot.docs[i]);
-        print("=============ads : ${list.length}==========");
+        // print("=============ads : ${list.length}==========");
       }
     }
+    print("----------------------------list sorting 1_____________________");
+    print("----------------------------list sorting 1_____________________");
+    print("----------------------------list sorting 1_____________________");
+
+    print(list);
+    // for (var i in list.toList()) {
+    //   print("========================for loop");
+    //   print(i['timestamp']);
+    // }
+    list.sort((a, b) => a["timestamp"].compareTo(b["timestamp"]));
 
     return list;
   }

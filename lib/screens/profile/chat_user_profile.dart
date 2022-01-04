@@ -31,7 +31,7 @@ class _ChatUserProfileState extends State<ChatUserProfile> {
           const SizedBox(height: 24),
           //NumbersWidget(),
           const SizedBox(height: 48),
-          buildAbout(about: widget.receiver.bio?? "Not Added"),
+          buildAbout(about: widget.receiver.bio?? "Not Added", status: widget.receiver.status),
         ],
       ),
     );
@@ -56,7 +56,7 @@ class _ChatUserProfileState extends State<ChatUserProfile> {
   //       onClicked: () {},
   //     );
 
-  Widget buildAbout({String about}) => Container(
+  Widget buildAbout({String about, String status}) => Container(
         padding: EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,16 @@ class _ChatUserProfileState extends State<ChatUserProfile> {
             ),
             const SizedBox(height: 16),
             Text(
-              about,
+              about.length ==0 ?  " This user has no bio information": about,
+              style: TextStyle(fontSize: 16, height: 1.4),
+            ),
+            Text(
+              'Status',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              status.length ==0 ?  " Unable to get user status info": status,
               style: TextStyle(fontSize: 16, height: 1.4),
             ),
           ],

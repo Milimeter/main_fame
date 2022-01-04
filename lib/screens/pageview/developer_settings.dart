@@ -170,14 +170,14 @@ class DeveloperSettings extends StatelessWidget {
                             withBackground: true,
                             backgroundColor: kPrimaryColor,
                           ),
-                          title: 'Send Algo',
+                          title: 'Pay',
                           subtitle: "Send Algorand to your friends",
                         )
                       : SettingsItem(
                           onTap: () {},
                           icons: Entypo.share,
                           iconStyle: IconStyle(),
-                          title: 'Send Algo',
+                          title: 'Pay',
                           subtitle: "Send Algorand to your friends",
                         ),
                   SettingsItem(

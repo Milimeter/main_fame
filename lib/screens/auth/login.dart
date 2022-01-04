@@ -179,15 +179,15 @@ class LoginPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(top: 100),
-                          height: 200,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/background.png"),
-                                fit: BoxFit.fitHeight),
-                          ),
-                        )
+                        // Container(
+                        //   padding: EdgeInsets.only(top: 100),
+                        //   height: 200,
+                        //   decoration: BoxDecoration(
+                        //     image: DecorationImage(
+                        //         image: AssetImage("assets/background.png"),
+                        //         fit: BoxFit.fitHeight),
+                        //   ),
+                        // )
                       ],
                     ))
                   ],

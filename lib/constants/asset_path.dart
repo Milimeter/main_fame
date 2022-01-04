@@ -11,8 +11,9 @@ final String image = _getImagePath("image.png");
 final String stream = _getImagePath("stream.png");
 final String join = _getImagePath("join.png");
 final String a = _getImagePath("a.png");
-final String b = _getImagePath("b.png");
+final String b = _getImagePath("background.png");
 final String c = _getImagePath("c.png");
 final String alert = _getImagePath("alert.png");
+final String holdphone = _getImagePath("holdphone.png"); //background
 
 String _getImagePath(String imageName) => imageAssetRoot + imageName;
