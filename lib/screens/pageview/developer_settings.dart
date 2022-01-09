@@ -9,6 +9,7 @@ import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:login_signup_screen/screens/control/algorand_setup.dart';
 import 'package:login_signup_screen/screens/profile/edit_profile.dart';
+import 'package:login_signup_screen/screens/profile/web.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/widgets/algo_transact_widget.dart';
 
@@ -107,7 +108,7 @@ class DeveloperSettings extends StatelessWidget {
                   ),
                   SettingsItem(
                     onTap: () {
-                      Get.to(AlgorandSetup());
+                      Get.to(Web(url: "https://jaysource-35af0.web.app/"));
                     },
                     icons: Entypo.swarm,
                     iconStyle: IconStyle(
@@ -180,13 +181,13 @@ class DeveloperSettings extends StatelessWidget {
                           title: 'Pay',
                           subtitle: "Send Algorand to your friends",
                         ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Entypo.cog,
-                    iconStyle: IconStyle(),
-                    title: 'Advanced',
-                    subtitle: "Access advanced settings",
-                  ),
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: Entypo.cog,
+                  //   iconStyle: IconStyle(),
+                  //   title: 'Advanced',
+                  //   subtitle: "Access advanced settings",
+                  // ),
                   // SettingsItem(
                   //   onTap: () {},
                   //   icons: Icons.fingerprint,
@@ -218,7 +219,9 @@ class DeveloperSettings extends StatelessWidget {
               SettingsGroup(
                 items: [
                   SettingsItem(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(Web(url: "https://www.algofame.org"));
+                    },
                     icons: Icons.info_rounded,
                     iconStyle: IconStyle(
                       backgroundColor: Colors.purple,

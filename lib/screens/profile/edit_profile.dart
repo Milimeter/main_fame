@@ -55,7 +55,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final XFile image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       Get.snackbar("Uplading", "Image is being uploaded");
-      uploadImageToStorage(File(image.path));
+      String url = await uploadImageToStorage(File(image.path));
+      firebaseFirestore
+          .collection("users")
+          .doc(userController.userData.value.uid)
+          .update({"profile_photo": url});
     }
   }
 
@@ -128,7 +132,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                  userController
+                                          .userData.value.profilePhoto.isEmpty
+                                      ? "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250"
+                                      : userController
+                                          .userData.value.profilePhoto,
                                 ))),
                       ),
                     ),

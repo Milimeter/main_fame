@@ -171,7 +171,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFFFDC3D),
+                            color: kPrimaryColor,
                             borderRadius: BorderRadius.all(
                               Radius.circular(15),
                             ),
@@ -182,6 +182,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.white
                               ),
                             ),
                           ),

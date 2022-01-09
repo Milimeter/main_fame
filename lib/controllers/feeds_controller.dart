@@ -218,7 +218,7 @@ class FeedsController extends GetxController {
     //   print("========================for loop");
     //   print(i['timestamp']);
     // }
-    list.sort((a, b) => a["timestamp"].compareTo(b["timestamp"]));
+    list.sort((a, b) => b["timestamp"].compareTo(a["timestamp"]));
 
     return list;
   }

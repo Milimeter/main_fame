@@ -125,7 +125,7 @@ class _PhoneInputState extends State<PhoneInput> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color(0xFFFFDC3D),
+                          color:kPrimaryColor,
                           borderRadius: BorderRadius.all(
                             Radius.circular(15),
                           ),
@@ -136,6 +136,7 @@ class _PhoneInputState extends State<PhoneInput> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
