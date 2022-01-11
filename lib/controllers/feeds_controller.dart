@@ -337,7 +337,7 @@ class FeedsController extends GetxController {
         .get();
     return querySnapshot.docs;
   }
-
+//future
   Future<UserData> retrieveUserDetails(User user) async {
     DocumentSnapshot _documentSnapshot = await FirebaseFirestore.instance
         .collection("users")
