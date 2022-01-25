@@ -95,13 +95,13 @@ class AlgorandController extends GetxController {
       final key = privateKey;
       _storage.write("publicAddress", publicAddress.value);
       _storage.write("privateKey", key);
-      if(restoredAccount != null){
-         Map data = {
-        "public_address": publicAddress.value,
-        "private_key": key,
-        "seed_phrase": words,
-      };
-      userController.updateUserData(data);
+      if (restoredAccount != null) {
+        Map data = {
+          "public_address": publicAddress.value,
+          "private_key": key,
+          "seed_phrase": words,
+        };
+        userController.updateUserData(data);
       }
       Map data = {
         "public_address": publicAddress.value,
@@ -113,6 +113,29 @@ class AlgorandController extends GetxController {
       return restoredAccount;
     } catch (e) {
       return null;
+    }
+  }
+
+  sendPayment({String recipientAddress, double amount}) async* {
+    try {
+      showLoading();
+      final recipient = Address.fromAlgorandAddress(address: recipientAddress);
+      final myAccount = await algorand
+          .loadAccountFromSeed(userController.userData.value.seedPhrase);
+      final txId = await algorand.sendPayment(
+        account: myAccount,
+        recipient: recipient,
+        amount: Algo.toMicroAlgos(amount),
+      );
+
+      // Wait until the transaction is confirmed
+      await algorand.waitForConfirmation(txId);
+      dismissLoading();
+
+      
+    } catch (e) {
+      dismissLoading();
+      Get.snackbar("Error!", "Payment Failed");
     }
   }
 }

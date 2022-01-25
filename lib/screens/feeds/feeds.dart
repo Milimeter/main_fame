@@ -27,7 +27,6 @@ import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
 
-
 class Feeds extends StatefulWidget {
   @override
   _FeedsState createState() => _FeedsState();
@@ -81,7 +80,7 @@ class _FeedsState extends State<Feeds> {
         });
       }
     }
-    _future = _feedsController.fetchFeed(currentUser); 
+    _future = _feedsController.fetchFeed(currentUser);
   }
 
   bool builds = false;
@@ -116,18 +115,18 @@ class _FeedsState extends State<Feeds> {
           elevation: 1.0,
           // leading: new Icon(Icons.camera_alt),
           title: Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: IconButton(
-                icon: Icon(
-                  Entypo.magnifying_glass,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => Search())));
-                },
+            padding: const EdgeInsets.only(right: 12.0),
+            child: IconButton(
+              icon: Icon(
+                Entypo.magnifying_glass,
+                color: Colors.black,
               ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => Search())));
+              },
             ),
+          ),
           leading: GestureDetector(
             onTap: () => Get.to(ProfileScreen()),
             child: CachedImage(
@@ -137,34 +136,34 @@ class _FeedsState extends State<Feeds> {
               isRound: true,
             ),
           ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.live_tv,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => ChooseCall())));
-                },
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 12.0),
-            //   child: IconButton(
-            //     icon: Icon(
-            //       Entypo.magnifying_glass,
-            //       color: Colors.black,
-            //     ),
-            //     onPressed: () {
-            //       Navigator.push(context,
-            //           MaterialPageRoute(builder: ((context) => Search())));
-            //     },
-            //   ),
-            // )
-          ],
+          // actions: <Widget>[
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 12.0),
+          //     child: IconButton(
+          //       icon: Icon(
+          //         Icons.live_tv,
+          //         color: Colors.black,
+          //       ),
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: ((context) => ChooseCall())));
+          //       },
+          //     ),
+          //   ),
+          //   // Padding(
+          //   //   padding: const EdgeInsets.only(right: 12.0),
+          //   //   child: IconButton(
+          //   //     icon: Icon(
+          //   //       Entypo.magnifying_glass,
+          //   //       color: Colors.black,
+          //   //     ),
+          //   //     onPressed: () {
+          //   //       Navigator.push(context,
+          //   //           MaterialPageRoute(builder: ((context) => Search())));
+          //   //     },
+          //   //   ),
+          //   // )
+          // ],
         ),
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 20),
@@ -356,101 +355,104 @@ class _FeedsState extends State<Feeds> {
                     onPressed: () => print('More'),
                   ),
                 ),
-                InkWell(
-                  onDoubleTap: () {
-                    if (!_isLiked) {
-                      setState(() {
-                        _isLiked = true;
-                      });
-                      // saveLikeValue(_isLiked);
-                      postLike(list[index].reference, currentUser);
-                    } else {
-                      setState(() {
-                        _isLiked = false;
-                      });
-                      //saveLikeValue(_isLiked);
-                      postUnlike(list[index].reference, currentUser);
-                    }
-                  },
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ShowFullImage(
-                    //       photoUrl: list[index].data()['imgUrl'],
-                    //     ),
-                    //   ),
-                    // );
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => ViewPostScreen(post: posts[index]),
-                    //   ),
-                    // );
-                  },
-                  child: FocusedMenuHolder(
-                    menuWidth: MediaQuery.of(context).size.width * 0.50,
-                    blurSize: 5.0,
-                    menuItemExtent: 45,
-                    menuBoxDecoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                    duration: Duration(milliseconds: 100),
-                    animateMenuItems: true,
-                    blurBackgroundColor: Colors.black54,
-                    bottomOffsetHeight: 100,
-                    openWithTap: true,
-                    menuItems: <FocusedMenuItem>[
-                      FocusedMenuItem(
-                          title: Text("View media"),
-                          trailingIcon: Icon(Entypo.documents),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ShowFullImage(
-                                  photoUrl: list[index].get('imgUrl'),
-                                ),
+                list[index].get('imgUrl') == 'NONE'
+                    ? const SizedBox()
+                    : InkWell(
+                        onDoubleTap: () {
+                          if (!_isLiked) {
+                            setState(() {
+                              _isLiked = true;
+                            });
+                            // saveLikeValue(_isLiked);
+                            postLike(list[index].reference, currentUser);
+                          } else {
+                            setState(() {
+                              _isLiked = false;
+                            });
+                            //saveLikeValue(_isLiked);
+                            postUnlike(list[index].reference, currentUser);
+                          }
+                        },
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => ShowFullImage(
+                          //       photoUrl: list[index].data()['imgUrl'],
+                          //     ),
+                          //   ),
+                          // );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (_) => ViewPostScreen(post: posts[index]),
+                          //   ),
+                          // );
+                        },
+                        child: FocusedMenuHolder(
+                          menuWidth: MediaQuery.of(context).size.width * 0.50,
+                          blurSize: 5.0,
+                          menuItemExtent: 45,
+                          menuBoxDecoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0))),
+                          duration: Duration(milliseconds: 100),
+                          animateMenuItems: true,
+                          blurBackgroundColor: Colors.black54,
+                          bottomOffsetHeight: 100,
+                          openWithTap: true,
+                          menuItems: <FocusedMenuItem>[
+                            FocusedMenuItem(
+                                title: Text("View media"),
+                                trailingIcon: Icon(Entypo.documents),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ShowFullImage(
+                                        photoUrl: list[index].get('imgUrl'),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                            FocusedMenuItem(
+                                title: Text("Share Feed"),
+                                trailingIcon: Icon(Entypo.paper_plane),
+                                onPressed: () {}),
+                            FocusedMenuItem(
+                                title: Text("Download Feed"),
+                                trailingIcon: Icon(Entypo.download),
+                                onPressed: () {}),
+                            FocusedMenuItem(
+                                title: Text("Unfollow User",
+                                    style: TextStyle(color: Colors.redAccent)),
+                                trailingIcon: Icon(Entypo.log_out,
+                                    color: Colors.redAccent),
+                                onPressed: () async {}),
+                          ],
+                          onPressed: () {},
+                          child: Container(
+                            margin: EdgeInsets.all(10.0),
+                            width: double.infinity,
+                            height: 400.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey[200],
+                              //     offset: Offset(0.0, 8.0),
+                              //     blurRadius: 8.0,
+                              //   ),
+                              // ],
+                              image: DecorationImage(
+                                image: NetworkImage(list[index].get('imgUrl')),
+                                fit: BoxFit.fitWidth,
                               ),
-                            );
-                          }),
-                      FocusedMenuItem(
-                          title: Text("Share Feed"),
-                          trailingIcon: Icon(Entypo.paper_plane),
-                          onPressed: () {}),
-                      FocusedMenuItem(
-                          title: Text("Download Feed"),
-                          trailingIcon: Icon(Entypo.download),
-                          onPressed: () {}),
-                      FocusedMenuItem(
-                          title: Text("Unfollow User",
-                              style: TextStyle(color: Colors.redAccent)),
-                          trailingIcon:
-                              Icon(Entypo.log_out, color: Colors.redAccent),
-                          onPressed: () async {}),
-                    ],
-                    onPressed: () {},
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      width: double.infinity,
-                      height: 400.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.grey[200],
-                        //     offset: Offset(0.0, 8.0),
-                        //     blurRadius: 8.0,
-                        //   ),
-                        // ],
-                        image: DecorationImage(
-                          image: NetworkImage(list[index].get('imgUrl')),
-                          fit: BoxFit.fitWidth,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
@@ -485,35 +487,6 @@ class _FeedsState extends State<Feeds> {
                               }
                             },
                           ),
-                          // LikeButton(
-                          //   size: buttonSize,
-                          //   likeCount: likeCount,
-                          //  // key: _globalKey,
-                          //   countBuilder:
-                          //       (int? count, bool isLiked, String text) {
-                          //     final ColorSwatch<int> color =
-                          //         isLiked ? Colors.pinkAccent : Colors.grey;
-                          //     Widget result;
-                          //     if (count == 0) {
-                          //       result = Text(
-                          //         'love',
-                          //         style: TextStyle(color: color),
-                          //       );
-                          //     } else
-                          //       result = Text(
-                          //         count! >= 1000
-                          //             ? (count / 1000.0).toStringAsFixed(1) + 'k'
-                          //             : text,
-                          //         style: TextStyle(color: color),
-                          //       );
-                          //     return result;
-                          //   },
-                          //   likeCountAnimationType: likeCount < 1000
-                          //       ? LikeCountAnimationType.part
-                          //       : LikeCountAnimationType.none,
-                          //   likeCountPadding: const EdgeInsets.only(left: 15.0),
-                          //   onTap: onLikeButtonTapped,
-                          // ),
                           SizedBox(width: 10.0),
                           IconButton(
                             icon: Icon(FontAwesomeIcons.comment),

@@ -188,7 +188,7 @@ class UserController extends GetxController {
     followingMap['uid'] = userId;
     //var username = Utils.getUsername(emailTextEditingController.text.trim());
     FirebaseFirestore.instance.collection(usersCollection).doc(userId).set({
-      "name": " ",
+      "name": phoneNumber,
       "uid": userId,
       "email": phoneNumber,
       "password": "",

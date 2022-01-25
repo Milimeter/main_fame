@@ -6,8 +6,10 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
+import 'package:login_signup_screen/screens/algo_ui/send_payment.dart';
 import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dart';
 import 'package:login_signup_screen/screens/control/algorand_setup.dart';
+import 'package:login_signup_screen/screens/feeds/profile_screen.dart';
 import 'package:login_signup_screen/screens/profile/edit_profile.dart';
 import 'package:login_signup_screen/screens/profile/web.dart';
 import 'package:login_signup_screen/utils/colors.dart';
@@ -31,63 +33,68 @@ class DeveloperSettings extends StatelessWidget {
           child: ListView(
             children: [
               // user card
-              BigUserCard(
-                cardColor: Colors.red,
-                userName: userController.userData.value.name.toString(),
-                userProfilePic: NetworkImage(
-                    userController.userData.value.profilePhoto ??
-                        "https://placeholder.com/300.png"),
-                userMoreInfo: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                          userController.userData.value.publicAddress.isEmpty
-                              ? "Setup your wallet below"
-                              : userController.userData.value.publicAddress,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
-                    ),
-                    userController.userData.value.publicAddress.isEmpty
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.railway_alert,
+              GestureDetector(
+                onTap: () {
+                  Get.to(ProfileScreen());
+                },
+                child: BigUserCard(
+                  cardColor: Colors.red,
+                  userName: userController.userData.value.name.toString(),
+                  userProfilePic: NetworkImage(
+                      userController.userData.value.profilePhoto ??
+                          "https://placeholder.com/300.png"),
+                  userMoreInfo: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                            userController.userData.value.publicAddress.isEmpty
+                                ? "Setup your wallet below"
+                                : userController.userData.value.publicAddress,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
                               color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              // ClipboardData data = ClipboardData(
-                              //     text: userController
-                              //         .userData.value.publicAddress
-                              //         .toString());
-                              // await Clipboard.setData(data);
-                            })
-                        : IconButton(
-                            icon: Icon(
-                              Entypo.copy,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              ClipboardData data = ClipboardData(
-                                  text: userController
-                                      .userData.value.publicAddress
-                                      .toString());
-                              await Clipboard.setData(data);
-                            }),
-                  ],
-                ),
-                cardActionWidget: SettingsItem(
-                  icons: Icons.edit,
-                  iconStyle: IconStyle(
-                    withBackground: true,
-                    borderRadius: 50,
-                    backgroundColor: Colors.yellow[600],
+                            )),
+                      ),
+                      userController.userData.value.publicAddress.isEmpty
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.railway_alert,
+                                color: Colors.white,
+                              ),
+                              onPressed: () async {
+                                // ClipboardData data = ClipboardData(
+                                //     text: userController
+                                //         .userData.value.publicAddress
+                                //         .toString());
+                                // await Clipboard.setData(data);
+                              })
+                          : IconButton(
+                              icon: Icon(
+                                Entypo.copy,
+                                color: Colors.white,
+                              ),
+                              onPressed: () async {
+                                ClipboardData data = ClipboardData(
+                                    text: userController
+                                        .userData.value.publicAddress
+                                        .toString());
+                                await Clipboard.setData(data);
+                              }),
+                    ],
                   ),
-                  title: "Modify",
-                  subtitle: "Tap to change your data",
-                  onTap: () {
-                    Get.to(EditProfilePage());
-                  },
+                  cardActionWidget: SettingsItem(
+                    icons: Icons.edit,
+                    iconStyle: IconStyle(
+                      withBackground: true,
+                      borderRadius: 50,
+                      backgroundColor: Colors.yellow[600],
+                    ),
+                    title: "Modify",
+                    subtitle: "Tap to change your data",
+                    onTap: () {
+                      Get.to(EditProfilePage());
+                    },
+                  ),
                 ),
               ),
 
@@ -160,34 +167,39 @@ class DeveloperSettings extends StatelessWidget {
                     title: 'FAME',
                     subtitle: "Setup your Fame Wallet",
                   ),
-                  userController.userData.value.publicAddress.isNotEmpty
-                      ? SettingsItem(
-                          onTap: () {
-                            Get.to(Scanner());
-                          },
-                          icons: Entypo.share,
-                          iconStyle: IconStyle(
-                            iconsColor: Colors.white,
-                            withBackground: true,
-                            backgroundColor: kPrimaryColor,
-                          ),
-                          title: 'Pay',
-                          subtitle: "Send Algorand to your friends",
-                        )
-                      : SettingsItem(
-                          onTap: () {},
-                          icons: Entypo.share,
-                          iconStyle: IconStyle(),
-                          title: 'Pay',
-                          subtitle: "Send Algorand to your friends",
-                        ),
-                  // SettingsItem(
-                  //   onTap: () {},
-                  //   icons: Entypo.cog,
-                  //   iconStyle: IconStyle(),
-                  //   title: 'Advanced',
-                  //   subtitle: "Access advanced settings",
-                  // ),
+                  // userController.userData.value.publicAddress.isNotEmpty
+                  //     ? SettingsItem(
+                  //         onTap: () {
+                  //           Get.to(Scanner());
+                  //         },
+                  //         icons: Entypo.share,
+                  //         iconStyle: IconStyle(
+                  //           iconsColor: Colors.white,
+                  //           withBackground: true,
+                  //           backgroundColor: kPrimaryColor,
+                  //         ),
+                  //         title: 'Pay',
+                  //         subtitle: "Send Algorand to your friends",
+                  //       )
+                  //     : SettingsItem(
+                  //         onTap: () {},
+                  //         icons: Entypo.share,
+                  //         iconStyle: IconStyle(),
+                  //         title: 'Pay',
+                  //         subtitle: "Send Algorand to your friends",
+                  //       ),
+                  SettingsItem(
+                    onTap: () {
+                      Get.to(() => const SendAlgoPayment());
+                    },
+                    icons: Feather.credit_card,
+                    iconStyle: IconStyle(
+                      withBackground: true,
+                      backgroundColor: kPrimaryColor,
+                    ),
+                    title: 'Send Payment',
+                    subtitle: "Send Algorand to your friends",
+                  ),
                   // SettingsItem(
                   //   onTap: () {},
                   //   icons: Icons.fingerprint,
@@ -227,7 +239,7 @@ class DeveloperSettings extends StatelessWidget {
                       backgroundColor: Colors.purple,
                     ),
                     title: 'About',
-                    subtitle: "Learn more about AlgoChat",
+                    subtitle: "Learn more about us",
                   ),
                 ],
               ),

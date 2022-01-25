@@ -8,10 +8,13 @@ import 'package:login_signup_screen/screens/chat_screen/chat.dart';
 import 'package:login_signup_screen/screens/feeds/feeds.dart';
 import 'package:login_signup_screen/screens/pageview/algorand_web.dart';
 import 'package:login_signup_screen/screens/pageview/developer_settings.dart';
+import 'package:login_signup_screen/utils/colors.dart';
+
+import 'pageview/live_stream.dart';
 
 class HomeScreen extends StatefulWidget {
   final int index;
-  HomeScreen({this.index}); 
+  HomeScreen({this.index});
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -22,6 +25,7 @@ class _MyHomePageState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     Feeds(),
     ChatListScreen(),
+    LiveStreamPage(),
     AlgoWeb(),
     DeveloperSettings(),
   ];
@@ -60,7 +64,7 @@ class _MyHomePageState extends State<HomeScreen> {
               rippleColor: Colors.grey[300],
               hoverColor: Colors.grey[100],
               gap: 8,
-              activeColor: Colors.black,
+              activeColor: kPrimaryColor,
               iconSize: 24,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: Duration(milliseconds: 400),
@@ -70,18 +74,27 @@ class _MyHomePageState extends State<HomeScreen> {
                 GButton(
                   icon: Entypo.news,
                   text: 'Home',
+                  iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.chat,
                   text: 'Chat',
+                  iconColor: kPrimaryColor,
+                ),
+                GButton(
+                  icon: Entypo.flickr_with_circle,
+                  text: 'Stream',
+                  iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.qq,
                   text: 'Solutions',
+                  iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.user,
                   text: 'Profile',
+                  iconColor: kPrimaryColor,
                 ),
               ],
               selectedIndex: selectedIndex,

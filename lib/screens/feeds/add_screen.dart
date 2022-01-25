@@ -11,8 +11,9 @@ import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dar
 import 'package:login_signup_screen/screens/feeds/upload_feed.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:scaled_list/scaled_list.dart';
-// import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+import 'upload_no_image.dart';
+// import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class InstaAddScreen extends StatefulWidget {
   @override
@@ -82,7 +83,6 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
     });
   }
 
-  
   showImageDialog() {
     return showDialog(
         context: context,
@@ -152,7 +152,7 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
   @override
   Widget build(BuildContext context) {
     return PickupLayout(
-          scaffold: Scaffold(
+      scaffold: Scaffold(
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
@@ -204,7 +204,7 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
                             showImageDialog();
                             break;
                           case 1:
-                            Get.snackbar("Message", "Feature Coming Soon :)");
+                            Get.to(() => UploadNoImage());
                             break;
                           case 2:
                             // video
@@ -255,7 +255,7 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
 
   List<Category> categories = [
     Category(image: image, name: "Upload Image", onTap: () {}),
-    Category(image: newgroup, name: "Upload Multiple Images", onTap: () {}),
+    Category(image: newgroup, name: "Create Post", onTap: () {}),
     Category(image: pic3, name: "Upload Video", onTap: () {}),
     Category(image: pic4, name: "Create Polls", onTap: () {}),
     Category(image: support, name: "Create Adverts", onTap: () {}),

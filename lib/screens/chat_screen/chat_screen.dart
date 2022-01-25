@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -12,6 +14,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:giphy_get/giphy_get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:linkify_text/linkify_text.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/constants/strings.dart';
@@ -23,6 +26,7 @@ import 'package:login_signup_screen/screens/chat_screen/widget/reply_message_wid
 import 'package:login_signup_screen/utils/call_utils.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/utils/permissions.dart';
+import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/algo_app_bar/message_app_bar_action.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
@@ -102,6 +106,51 @@ class _ChatScreenState extends State<ChatScreen> {
     );
 
     _chatMethods.addGifToDb(_message);
+  }
+
+  Future<String> uploadImageToStorage(File imageFile) async {
+    // mention try catch later on
+    Reference _storageReference;
+
+    try {
+      _storageReference = FirebaseStorage.instance
+          .ref()
+          .child('${DateTime.now().millisecondsSinceEpoch}');
+      UploadTask storageUploadTask = _storageReference.putFile(imageFile);
+      var url = await (await storageUploadTask).ref.getDownloadURL();
+      // log(url);
+      return url;
+    } catch (e) {
+      // log(e.toString());
+      throw e.toString();
+    }
+  }
+
+  final ImagePicker _picker = ImagePicker();
+
+  void pickImage() async {
+    final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      Get.snackbar("Uplading", "Image is being uploaded");
+      String url = await uploadImageToStorage(File(image.path));
+      Message _message = Message.imageMessage(
+        receiverId: widget.receiver.uid,
+        senderId: sender.uid,
+        message: "image",
+        photoUrl: url,
+        timestamp: Timestamp.now(),
+        type: 'image',
+        isRead: false,
+        idFrom: sender.uid,
+      );
+      Get.snackbar(
+        "Sending...",
+        "Image is being sent",
+        // colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+      );
+      _chatMethods.addImageMSGToDb(_message);
+    }
   }
 
   showKeyboard() => textFieldFocus.requestFocus();
@@ -393,7 +442,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     color: kPrimaryColor,
                   ),
                   onPressed: () {
-                    Get.snackbar("Message", "Feature Coming Soon :)");
+                    pickImage();
                   },
                 ),
               ),
@@ -699,12 +748,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * 0.65),
                     decoration: BoxDecoration(
-                      color: smessage.type == 'sticker'|| smessage.type == 'gif'
-                          ? Colors.transparent
-                          : Colors.blue,
+                      color:
+                          smessage.type == 'sticker' || smessage.type == 'gif'
+                              ? Colors.transparent
+                              : Colors.blue,
                       boxShadow: [
                         BoxShadow(
-                          color: smessage.type == 'sticker' || smessage.type == 'gif'
+                          color: smessage.type == 'sticker' ||
+                                  smessage.type == 'gif'
                               ? Colors.transparent
                               : Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
@@ -772,7 +823,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           : Colors.blue,
                       boxShadow: [
                         BoxShadow(
-                          color: smessage.type == 'sticker' || smessage.type == 'gif'
+                          color: smessage.type == 'sticker' ||
+                                  smessage.type == 'gif'
                               ? Colors.transparent
                               : Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
@@ -1065,13 +1117,13 @@ class _ChatScreenState extends State<ChatScreen> {
       print(">>>>>>>>>>>>>>gif  message");
       print("git here ===================${message.gif}");
       return ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                message.gif,
-                headers: {'accept': 'image/*'},
-                height: 200.0,
-              ),
-            );
+        borderRadius: BorderRadius.circular(20),
+        child: Image.network(
+          message.gif,
+          headers: {'accept': 'image/*'},
+          height: 200.0,
+        ),
+      );
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/screens/auth/signup.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 
+import 'forgot_password.dart';
 import 'phone_input.dart';
 
 class LoginPage extends StatelessWidget {
@@ -81,7 +82,16 @@ class LoginPage extends StatelessWidget {
                                   label: "Password",
                                   obscureText: true,
                                   controller: userController
-                                      .passwordTextEditingController)
+                                      .passwordTextEditingController),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => ResetPasswordScreen());
+                                  },
+                                  child: Text("Forgot Password?"),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -135,7 +145,7 @@ class LoginPage extends StatelessWidget {
                               minWidth: double.infinity,
                               height: 60,
                               onPressed: () {
-                                 Get.to(PhoneInput());
+                                Get.to(PhoneInput());
                               },
                               color: kSecondaryColor,
                               elevation: 0,

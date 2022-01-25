@@ -67,6 +67,32 @@ class ChatMethods {
     }
   }
 
+  Future<void> addImageMSGToDb(
+    Message message,
+  ) async {
+    try {
+      print(">>>>>>>>>>>>>>>>>>Sending image Message<<<<<<<<<<<<<<<<<");
+      print(message.photoUrl);
+      var map = message.toImageMap();
+
+      await _messageCollection
+          .doc(message.senderId)
+          .collection(message.receiverId)
+          .add(map);
+
+      updateContactListOrder(
+          senderId: message.senderId, receiverId: message.receiverId);
+      print("-------------------done---------------");
+
+      return await _messageCollection
+          .doc(message.receiverId)
+          .collection(message.senderId)
+          .add(map);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   // DocumentReference getContactsDocument({String of, String forContact}) =>
   //     _userCollection
   //         .document(of)
