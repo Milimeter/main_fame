@@ -41,7 +41,7 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
                 'Amount',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
+                    .headline6 
                     ?.copyWith(color: Colors.black),
               ),
               SpinBox(
