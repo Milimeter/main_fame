@@ -37,6 +37,21 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
           key: _formKey,
           child: Column(
             children: [
+               Text(
+                'Balance',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6 
+                    ?.copyWith(color: Colors.black),
+              ),
+               Text(
+                '0',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6 
+                    ?.copyWith(color: Colors.black),
+              ),
+              const SizedBox(height: 20),
               Text(
                 'Amount',
                 style: Theme.of(context)
