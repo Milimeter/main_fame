@@ -14,6 +14,7 @@ void main() async {
   await initialization.then((value) {
     print("initialized firebase");
   });
+  
   Get.put(UserController());
 
   Get.put(AppController());

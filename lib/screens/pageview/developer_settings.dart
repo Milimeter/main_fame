@@ -190,7 +190,10 @@ class DeveloperSettings extends StatelessWidget {
                   //       ),
                   SettingsItem(
                     onTap: () {
-                      Get.to(() => const SendAlgoPayment());
+                      userController.userData.value.publicAddress.isEmpty
+                          ? Get.snackbar(
+                              "Access Denied", "Setup your algorand wallet")
+                          : Get.to(() => const SendAlgoPayment());
                     },
                     icons: Feather.credit_card,
                     iconStyle: IconStyle(

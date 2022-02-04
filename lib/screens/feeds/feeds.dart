@@ -15,6 +15,7 @@ import 'package:login_signup_screen/controllers/user_controller.dart';
 import 'package:login_signup_screen/model/like.dart';
 import 'package:login_signup_screen/model/user_data.dart';
 import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dart';
+import 'package:login_signup_screen/screens/chat_screen/widget/search_user.dart';
 import 'package:login_signup_screen/screens/feeds/LiveStream/choose_call.dart';
 import 'package:login_signup_screen/screens/feeds/add_screen.dart';
 import 'package:login_signup_screen/screens/feeds/comments_screen.dart';
@@ -110,61 +111,82 @@ class _FeedsState extends State<Feeds> {
     return PickupLayout(
       scaffold: Scaffold(
         appBar: AppBar(
-          backgroundColor: new Color(0xfff8faf8),
-          centerTitle: true,
-          elevation: 1.0,
-          // leading: new Icon(Icons.camera_alt),
-          title: Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              icon: Icon(
-                Entypo.magnifying_glass,
-                color: Colors.black,
+            backgroundColor: new Color(0xfff8faf8),
+            centerTitle: true,
+            elevation: 1.0,
+            // leading: new Icon(Icons.camera_alt),
+            title: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Entypo.magnifying_glass,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Get.to(SearchScreen());
+                      },
+                    ),
+                    SizedBox(width: 2),
+                    Text("Add Friends",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ))
+                  ],
+                )),
+            leading: GestureDetector(
+              onTap: () => Get.to(ProfileScreen()),
+              child: CachedImage(
+                //pass to profile of the receiver
+                _userController.userData.value.profilePhoto,
+                radius: 50,
+                isRound: true,
               ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => Search())));
-              },
             ),
-          ),
-          leading: GestureDetector(
-            onTap: () => Get.to(ProfileScreen()),
-            child: CachedImage(
-              //pass to profile of the receiver
-              _userController.userData.value.profilePhoto,
-              radius: 50,
-              isRound: true,
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Entypo.magnifying_glass,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => Search())));
+                },
+              ),
+            ]
+            // actions: <Widget>[
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 12.0),
+            //     child: IconButton(
+            //       icon: Icon(
+            //         Icons.live_tv,
+            //         color: Colors.black,
+            //       ),
+            //       onPressed: () {
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: ((context) => ChooseCall())));
+            //       },
+            //     ),
+            //   ),
+            //   // Padding(
+            //   //   padding: const EdgeInsets.only(right: 12.0),
+            //   //   child: IconButton(
+            //   //     icon: Icon(
+            //   //       Entypo.magnifying_glass,
+            //   //       color: Colors.black,
+            //   //     ),
+            //   //     onPressed: () {
+            //   //       Navigator.push(context,
+            //   //           MaterialPageRoute(builder: ((context) => Search())));
+            //   //     },
+            //   //   ),
+            //   // )
+            // ],
             ),
-          ),
-          // actions: <Widget>[
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: 12.0),
-          //     child: IconButton(
-          //       icon: Icon(
-          //         Icons.live_tv,
-          //         color: Colors.black,
-          //       ),
-          //       onPressed: () {
-          //         Navigator.push(context,
-          //             MaterialPageRoute(builder: ((context) => ChooseCall())));
-          //       },
-          //     ),
-          //   ),
-          //   // Padding(
-          //   //   padding: const EdgeInsets.only(right: 12.0),
-          //   //   child: IconButton(
-          //   //     icon: Icon(
-          //   //       Entypo.magnifying_glass,
-          //   //       color: Colors.black,
-          //   //     ),
-          //   //     onPressed: () {
-          //   //       Navigator.push(context,
-          //   //           MaterialPageRoute(builder: ((context) => Search())));
-          //   //     },
-          //   //   ),
-          //   // )
-          // ],
-        ),
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 20),
           child: FloatingActionButton(

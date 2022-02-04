@@ -15,7 +15,8 @@ class AlgorandSetup extends StatelessWidget {
     var account = await _algorandController.createAlgorandWallet();
     if (account != null) {
       box.write("walletCreated", true);
-      Get.offAll(HomeScreen(index: 3));
+      Get.snackbar("success", "algorand wallet created");
+      Get.back();
     }
   }
 

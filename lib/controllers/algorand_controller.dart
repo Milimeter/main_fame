@@ -2,18 +2,40 @@ import 'package:get/get.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
-import 'package:login_signup_screen/sevices/algorand.dart';
+//import 'package:login_signup_screen/sevices/algorand.dart';
 import 'package:login_signup_screen/widgets/loading.dart';
 
 class AlgorandController extends GetxController {
   static AlgorandController instance = Get.find();
   RxString publicAddress = ''.obs;
+  Algorand algorand;
   RxList privateKey = [].obs;
   RxString publicKey = ''.obs;
   RxList words = [].obs;
   Account account;
   Account restoredAccount;
   final _storage = GetStorage();
+  setupService() {
+    final apiKey = 'KJc0hecCkm8qXpIQbN6l177jf4J80l87Hzc8PeA9';
+    //PureStake.MAINNET_INDEXER_API_URL
+    final algodClient = AlgodClient(
+      apiUrl: PureStake.TESTNET_ALGOD_API_URL,
+      apiKey: apiKey,
+      tokenKey: PureStake.API_TOKEN_HEADER,
+    );
+
+    final indexerClient = IndexerClient(
+      apiUrl: PureStake.TESTNET_INDEXER_API_URL,
+      apiKey: apiKey,
+      tokenKey: PureStake.API_TOKEN_HEADER,
+    );
+
+    algorand = Algorand(
+      algodClient: algodClient,
+      indexerClient: indexerClient,
+    );
+    print("systemsetup========--------=====================");
+  }
 
   Future<Account> createAlgorandWallet() async {
     showLoading();
@@ -22,6 +44,7 @@ class AlgorandController extends GetxController {
     //With the given account, you can easily extract the public Algorand address, signing keys and seedphrase/mnemonic.
 
     publicAddress.value = account.publicAddress;
+
     print(
         "==========public address=========== ${publicAddress.value} ====================");
 
@@ -34,12 +57,14 @@ class AlgorandController extends GetxController {
     This converts the private 32-byte key into a 25 word mnemonic. 
     The generated mnemonic includes a checksum. 
     Each word in the mnemonic represents 11 bits of data, and the last 11 bits are reserved for the checksum.*/
+    print(account.publicKey.toString());
 
     words.value = await account.seedPhrase; // returns a list of strings
     print("==========seed Phrase=========== $words ====================");
     //==================================================
     //storing values in the local database
     final key = privateKey;
+    final privteKey = await account.keyPair.extractPrivateKeyBytes();
     _storage.write("publicAddress", publicAddress.value);
     _storage.write("privateKey", key);
     _storage.write("words", words);
@@ -116,12 +141,18 @@ class AlgorandController extends GetxController {
     }
   }
 
-  sendPayment({String recipientAddress, double amount}) async* {
+  sendPayment({String recipientAddress, double amount}) async {
     try {
       showLoading();
+      Get.snackbar("Sending!", "Payment in progress. Please wait");
+      print("=====================-------------============ihf");
+
       final recipient = Address.fromAlgorandAddress(address: recipientAddress);
-      final myAccount = await algorand
-          .loadAccountFromSeed(userController.userData.value.seedPhrase);
+      // final myAccount = await algorand
+      //     .loadAccountFromSeed(userController.userData.value.seedPhrase);
+      List<int> seed =
+          List.from(userController.userData.value.privateKey.toList());
+      final myAccount = await algorand.loadAccountFromSeed(seed);
       final txId = await algorand.sendPayment(
         account: myAccount,
         recipient: recipient,
@@ -130,13 +161,20 @@ class AlgorandController extends GetxController {
 
       // Wait until the transaction is confirmed
       await algorand.waitForConfirmation(txId);
-      dismissLoading();
-       Get.snackbar("Success!", "Payment Completed");
 
-      
+      dismissLoading();
+      Get.snackbar("Success!", "Payment Completed");
+      return true;
     } catch (e) {
+      print(e);
       dismissLoading();
       Get.snackbar("Error!", "Payment Failed");
     }
+  }
+
+  @override
+  void onReady() {
+    setupService();
+    super.onReady();
   }
 }
