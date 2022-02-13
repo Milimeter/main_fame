@@ -1,4 +1,4 @@
-package com.abdulrazaq.algo.chat
+package com.algofame.fame
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -73,27 +73,27 @@ class _MyHomePageState extends State<HomeScreen> {
               tabs: [
                 GButton(
                   icon: Entypo.news,
-                  text: 'Home',
+                  text: '',
                   iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.chat,
-                  text: 'Chat',
+                  text: '',
                   iconColor: kPrimaryColor,
                 ),
                 GButton(
-                  icon: Entypo.flickr_with_circle,
-                  text: 'Stream',
+                  icon: Icons.live_tv,
+                  text: '',
                   iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.qq,
-                  text: 'Solutions',
+                  text: '',
                   iconColor: kPrimaryColor,
                 ),
                 GButton(
                   icon: Entypo.user,
-                  text: 'Profile',
+                  text: '',
                   iconColor: kPrimaryColor,
                 ),
               ],

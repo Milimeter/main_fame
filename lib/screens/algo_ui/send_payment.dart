@@ -118,7 +118,7 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
                     ?.copyWith(color: Colors.black),
               ),
               Text(
-                balance.toString(),
+                "${balance.toString()} Algo",
                 style: Theme.of(context)
                     .textTheme
                     .headline6

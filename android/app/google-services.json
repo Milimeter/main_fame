@@ -7,25 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:263689475685:android:d4e28a00489dbaebb7988c",
+        "mobilesdk_app_id": "1:263689475685:android:1696b9733be41174b7988c",
         "android_client_info": {
-          "package_name": "com.abdulrazaq.algo.chat"
+          "package_name": "com.algofame.fame"
         }
       },
       "oauth_client": [
         {
-          "client_id": "263689475685-iv27m0tbkf1na0up3389vg40iuuok6j5.apps.googleusercontent.com",
+          "client_id": "263689475685-5bkhufcrftn4eri4c3tqd40lg0dnlpt3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.abdulrazaq.algo.chat",
+            "package_name": "com.algofame.fame",
             "certificate_hash": "2b257376f1e964788965993064e1f6b0b293ba8f"
           }
         },
         {
-          "client_id": "263689475685-n250bgm530j5ui82md9cjdm5korli2og.apps.googleusercontent.com",
+          "client_id": "263689475685-fjkhfqf62qcncphvdfnth904ssq1c22h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.abdulrazaq.algo.chat",
+            "package_name": "com.algofame.fame",
             "certificate_hash": "bc4ffa35ef7174c496e7203248f3a1a528ff5a70"
           }
         },

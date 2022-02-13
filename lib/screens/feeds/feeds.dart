@@ -9,6 +9,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:login_signup_screen/controllers/feeds_controller.dart';
 import 'package:login_signup_screen/controllers/user_controller.dart';
@@ -34,6 +35,7 @@ class Feeds extends StatefulWidget {
 }
 
 class _FeedsState extends State<Feeds> {
+  final box = GetStorage();
   UserData currentUser, user, followingUser;
   IconData icon;
   Color color;
@@ -115,28 +117,17 @@ class _FeedsState extends State<Feeds> {
             centerTitle: true,
             elevation: 1.0,
             // leading: new Icon(Icons.camera_alt),
-            title: Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Entypo.magnifying_glass,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        Get.to(SearchScreen());
-                      },
-                    ),
-                    SizedBox(width: 2),
-                    Text("Add Friends",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ))
-                  ],
-                )),
+            title: GestureDetector(
+              onTap: () {
+                Get.to(SearchScreen());
+              },
+              child: Text("Add Friends",
+                  style: TextStyle(
+                    color: kPrimaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  )),
+            ),
             leading: GestureDetector(
               onTap: () => Get.to(ProfileScreen()),
               child: CachedImage(
@@ -291,6 +282,8 @@ class _FeedsState extends State<Feeds> {
       UserData currentUser,
       int index}) {
     print("dadadadad : ${user.uid}");
+    bool _isLiked = false;
+    List likeList = box.read("likeList") ?? [];
 
     /// thses are the name of the fields
     /// list[index].get('price') ?? ""
@@ -381,6 +374,11 @@ class _FeedsState extends State<Feeds> {
                     ? const SizedBox()
                     : InkWell(
                         onDoubleTap: () {
+                          likeList.contains(list[index].get('postID')) == true
+                              ? likeList.removeWhere((element) =>
+                                  element == list[index].get('postID'))
+                              : likeList.add(list[index].get('postID'));
+                          setState(() {});
                           if (!_isLiked) {
                             setState(() {
                               _isLiked = true;
@@ -392,6 +390,8 @@ class _FeedsState extends State<Feeds> {
                               _isLiked = false;
                             });
                             //saveLikeValue(_isLiked);
+                            setState(() {});
+
                             postUnlike(list[index].reference, currentUser);
                           }
                         },
@@ -483,7 +483,10 @@ class _FeedsState extends State<Feeds> {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            icon: _isLiked
+                            icon: _isLiked ||
+                                    likeList.contains(
+                                            list[index].get('postID')) ==
+                                        true
                                 ? Icon(
                                     Icons.favorite,
                                     color: Colors.red,
@@ -494,6 +497,13 @@ class _FeedsState extends State<Feeds> {
                                   ),
                             iconSize: 30.0,
                             onPressed: () {
+                              print(likeList);
+                              likeList.contains(list[index].get('postID')) ==
+                                      true
+                                  ? likeList.removeWhere((element) =>
+                                      element == list[index].get('postID'))
+                                  : likeList.add(list[index].get('postID'));
+                              box.write('likeList', likeList);
                               if (!_isLiked) {
                                 setState(() {
                                   _isLiked = true;
