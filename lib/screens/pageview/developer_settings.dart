@@ -38,7 +38,7 @@ class DeveloperSettings extends StatelessWidget {
                   Get.to(ProfileScreen());
                 },
                 child: BigUserCard(
-                  cardColor: Colors.red,
+                  cardColor: kPrimaryColor,
                   userName: userController.userData.value.name.toString(),
                   userProfilePic: NetworkImage(
                       userController.userData.value.profilePhoto ??
@@ -102,7 +102,7 @@ class DeveloperSettings extends StatelessWidget {
                 items: [
                   SettingsItem(
                     onTap: () {
-                      Get.to(AlgorandSetup());
+                      Get.snackbar("Notice!", "Feature not available yet");
                     },
                     icons: Entypo.new_icon,
                     iconStyle: IconStyle(

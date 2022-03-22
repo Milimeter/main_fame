@@ -32,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
               child: TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Search'
+                  hintText: 'Add a friend'
                 ),
               ),
             )

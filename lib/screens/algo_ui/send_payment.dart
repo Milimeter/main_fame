@@ -72,6 +72,7 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
           title: const Text(
@@ -118,7 +119,8 @@ class _SendAlgoPaymentState extends State<SendAlgoPayment> {
                     ?.copyWith(color: Colors.black),
               ),
               Text(
-                "${balance.toString()} Algo",
+                //"${balance.toString()} Algo",
+                Algo.fromMicroAlgos(balance).toString() + " Algo",
                 style: Theme.of(context)
                     .textTheme
                     .headline6
@@ -259,33 +261,38 @@ class _AlgoTransactionState extends State<AlgoTransaction> {
                 transactions.isEmpty
                     ? Text("You have no payment transactions at the moment")
                     : Flexible(
-                      child: ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          itemCount: transactions.length,
-                          itemBuilder: (widget, index) => Container(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    transactions[index].id,
-                                    style: Theme.of(context).textTheme.subtitle1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            itemCount: transactions.length,
+                            itemBuilder: (widget, index) => Container(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      transactions[index].id,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
                                   ),
-                                ),
-                                Spacer(),
-                                Icon(Octicons.sync_icon),
-                                Text((transactions[index]
-                                    .closingAmount
-                                    .toString()))
-                              ],
+                                  Spacer(),
+                                  Icon(Octicons.sync_icon),
+                                  Text((transactions[index]
+                                      .closingAmount
+                                      .toString()))
+                                ],
+                              ),
                             ),
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider(color: kPrimaryColor);
+                            },
                           ),
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Divider(color: kPrimaryColor);
-                          },
                         ),
-                    ),
+                      ),
               ],
             );
           }),

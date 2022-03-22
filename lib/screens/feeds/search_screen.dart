@@ -62,7 +62,7 @@ class _SearchState extends State<Search> {
             Get.back();
           },
         ),
-        title: Text('Search', style: TextStyle(color: Colors.black)),
+        title: Text('Add a friend', style: TextStyle(color: Colors.black)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search, color: Colors.black),
@@ -80,28 +80,32 @@ class _SearchState extends State<Search> {
               crossAxisCount: 3, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
           itemBuilder: ((context, index) {
             print("LIST : ${list.length}");
-            return GestureDetector(
-              child: CachedNetworkImage(
-                imageUrl: list[index].get('imgUrl'),
-                placeholder: ((context, s) => Center(
-                      child: CircularProgressIndicator(),
-                    )),
-                width: 125.0,
-                height: 125.0,
-                fit: BoxFit.cover,
-              ),
-              onTap: () {
-                print("SNAPSHOT : ${list[index].reference.path}");
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => PostDetailScreen(
-                              user: _user,
-                              currentuser: currentUser,
-                              documentSnapshot: list[index],
-                            ))));
-              },
-            );
+            if (list[index].get('imgUrl') != "NONE") {
+              return GestureDetector(
+                child: CachedNetworkImage(
+                  imageUrl: list[index].get('imgUrl'),
+                  placeholder: ((context, s) => Center(
+                        child: CircularProgressIndicator(),
+                      )),
+                  width: 125.0,
+                  height: 125.0,
+                  fit: BoxFit.cover,
+                ),
+                onTap: () {
+                  print("SNAPSHOT : ${list[index].reference.path}");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => PostDetailScreen(
+                                user: _user,
+                                currentuser: currentUser,
+                                documentSnapshot: list[index],
+                              ))));
+                },
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
           })),
     );
   }
@@ -241,7 +245,7 @@ class _SearchUserState extends State<SearchUser> {
                 },
               ),
               border: InputBorder.none,
-              hintText: "Search",
+              hintText: "Add a friend",
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
@@ -322,7 +326,7 @@ class _SearchUserState extends State<SearchUser> {
   @override
   Widget build(BuildContext context) {
     return PickupLayout(
-          scaffold: Scaffold(
+      scaffold: Scaffold(
         backgroundColor: Colors.white,
         appBar: searchAppBar(context),
         body: Container(

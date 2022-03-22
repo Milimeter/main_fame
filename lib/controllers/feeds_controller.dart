@@ -337,6 +337,7 @@ class FeedsController extends GetxController {
         .get();
     return querySnapshot.docs;
   }
+
 //future
   Future<UserData> retrieveUserDetails(User user) async {
     DocumentSnapshot _documentSnapshot = await FirebaseFirestore.instance
@@ -365,6 +366,7 @@ class FeedsController extends GetxController {
     }
     // fetchSearchPosts(updatedList);
     print("UPDATED LIST LENGTH : ${updatedList.length}");
+    updatedList.sort((a, b) => b["timestamp"].compareTo(a["timestamp"]));
     return updatedList;
   }
 

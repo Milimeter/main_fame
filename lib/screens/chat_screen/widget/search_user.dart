@@ -78,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
               ),
               border: InputBorder.none,
-              hintText: "Search",
+              hintText: "Add a friend",
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
@@ -141,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
             radius: 30,
           ),
           title: Text(
-            searchedUser.username,
+            searchedUser.username.startsWith("+")? "Private User": searchedUser.username,
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,

@@ -35,6 +35,7 @@ class _ChatUserProfileState extends State<ChatUserProfile> {
         ],
       ),
     );
+  
   }
 
   Widget buildName({String name, String email}) => Column(

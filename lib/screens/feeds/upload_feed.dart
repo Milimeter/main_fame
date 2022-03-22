@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
@@ -11,6 +12,9 @@ import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/widgets/loading.dart';
 
 import 'package:uuid/uuid.dart';
+import 'dart:math' as mth;
+import 'package:path_provider/path_provider.dart' as path_provider;
+
 
 class UploadFeed extends StatefulWidget {
   final File imageFile;
@@ -99,8 +103,9 @@ class _UploadFeedState extends State<UploadFeed> {
       try {
         if (!isVideo) {
           if (widget.imageFile != null) {
+            File img = await testCompressAndGetFile(widget.imageFile);
             postImageURL = await _feedsController.uploadPostImages(
-                postID: postID, postImageFile: widget.imageFile);
+                postID: postID, postImageFile: img);
           }
         } else {
           if (widget.imageFile != null) {
@@ -137,6 +142,22 @@ class _UploadFeedState extends State<UploadFeed> {
     // setState(() {
     //   _isLoading = false;
     // });
+  }
+  // 2. compress file and get file.
+  Future<File> testCompressAndGetFile(File file) async {
+    mth.Random random = mth.Random();
+    int random_number = random.nextInt(100);
+    final dir = await path_provider.getTemporaryDirectory();
+
+    final targetPath = dir.absolute.path + "/temp$random_number.jpg";
+    File result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 30,
+      rotate: 0,
+    );
+
+    return result;
   }
 
   final List<String> _paymentOption = [

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -16,6 +17,7 @@ import 'package:login_signup_screen/controllers/user_controller.dart';
 import 'package:login_signup_screen/model/like.dart';
 import 'package:login_signup_screen/model/user_data.dart';
 import 'package:login_signup_screen/screens/callscreens/pickup/pickup_layout.dart';
+import 'package:login_signup_screen/screens/chat_screen/chat_screen.dart';
 import 'package:login_signup_screen/screens/chat_screen/widget/search_user.dart';
 import 'package:login_signup_screen/screens/feeds/LiveStream/choose_call.dart';
 import 'package:login_signup_screen/screens/feeds/add_screen.dart';
@@ -290,355 +292,389 @@ class _FeedsState extends State<Feeds> {
     /// list[index].get('quantity')?? ""
     /// list[index].get('paymentOption') ?? ""
     if (list[index].get('type') == "image") {
-      return Padding(
-        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20.0),
+      return SwipeActionCell(
+        ///this key is necessary
+        key: ObjectKey(list[index]),
+        trailingActions: <SwipeAction>[
+          SwipeAction(
+            ///this is the same as iOS native
+            performsFirstActionWithFullSwipe: true,
+            title: "Chat",
+            onTap: (CompletionHandler handler) async {
+              String ownerUid = list[index].get('ownerUid');
+              if (user.uid != ownerUid) {
+                UserData contact =
+                    await _feedsController.fetchUserDetailsById(ownerUid);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      receiver: contact,
+                    ),
+                  ),
+                );
+              }
+            },
+            color:
+                list[index].get('ownerUid') != currentUser.uid ? kPrimaryColor : Colors.grey[100],
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  leading: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => FriendsFeedsProfile(
-                                      name: list[index].get('postOwnerName'),
-                                    ))));
-                      },
-                      child: Container(
-                        width: 50.0,
-                        height: 50.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black45,
-                              offset: Offset(0.0, 2.0),
-                              blurRadius: 6.0,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          child: ClipOval(
-                            child: Image(
-                              width: 50.0,
-                              height: 50.0,
-                              image: NetworkImage(
-                                  list[index].get('postOwnerPhotoUrl')),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      )),
-                  title: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => FriendsFeedsProfile(
-                                    name: list[index].get('postOwnerName')))));
-                      },
-                      child: Text(
-                        list[index].get('postOwnerName'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
-                  subtitle: Row(
-                    children: [
-                      list[index].get('location') != null
-                          ? new Text(
-                              list[index].get('location'),
-                              style: TextStyle(color: Colors.grey),
-                            )
-                          : Container(),
-                      SizedBox(width: 10),
-                      Text(Utils.readTimestamp(list[index].get('timestamp')),
-                          style: TextStyle(color: Colors.grey)),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.more_horiz),
-                    color: Colors.black,
-                    onPressed: () => print('More'),
-                  ),
-                ),
-                list[index].get('imgUrl') == 'NONE'
-                    ? const SizedBox()
-                    : InkWell(
-                        onDoubleTap: () {
-                          likeList.contains(list[index].get('postID')) == true
-                              ? likeList.removeWhere((element) =>
-                                  element == list[index].get('postID'))
-                              : likeList.add(list[index].get('postID'));
-                          setState(() {});
-                          if (!_isLiked) {
-                            setState(() {
-                              _isLiked = true;
-                            });
-                            // saveLikeValue(_isLiked);
-                            postLike(list[index].reference, currentUser);
-                          } else {
-                            setState(() {
-                              _isLiked = false;
-                            });
-                            //saveLikeValue(_isLiked);
-                            setState(() {});
-
-                            postUnlike(list[index].reference, currentUser);
-                          }
-                        },
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => ShowFullImage(
-                          //       photoUrl: list[index].data()['imgUrl'],
-                          //     ),
-                          //   ),
-                          // );
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) => ViewPostScreen(post: posts[index]),
-                          //   ),
-                          // );
-                        },
-                        child: FocusedMenuHolder(
-                          menuWidth: MediaQuery.of(context).size.width * 0.50,
-                          blurSize: 5.0,
-                          menuItemExtent: 45,
-                          menuBoxDecoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
-                          duration: Duration(milliseconds: 100),
-                          animateMenuItems: true,
-                          blurBackgroundColor: Colors.black54,
-                          bottomOffsetHeight: 100,
-                          openWithTap: true,
-                          menuItems: <FocusedMenuItem>[
-                            FocusedMenuItem(
-                                title: Text("View media"),
-                                trailingIcon: Icon(Entypo.documents),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ShowFullImage(
-                                        photoUrl: list[index].get('imgUrl'),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                            FocusedMenuItem(
-                                title: Text("Share Feed"),
-                                trailingIcon: Icon(Entypo.paper_plane),
-                                onPressed: () {}),
-                            FocusedMenuItem(
-                                title: Text("Download Feed"),
-                                trailingIcon: Icon(Entypo.download),
-                                onPressed: () {}),
-                            FocusedMenuItem(
-                                title: Text("Unfollow User",
-                                    style: TextStyle(color: Colors.redAccent)),
-                                trailingIcon: Icon(Entypo.log_out,
-                                    color: Colors.redAccent),
-                                onPressed: () async {}),
-                          ],
-                          onPressed: () {},
-                          child: Container(
-                            margin: EdgeInsets.all(10.0),
-                            width: double.infinity,
-                            height: 400.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //     color: Colors.grey[200],
-                              //     offset: Offset(0.0, 8.0),
-                              //     blurRadius: 8.0,
-                              //   ),
-                              // ],
-                              image: DecorationImage(
-                                image: NetworkImage(list[index].get('imgUrl')),
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: _isLiked ||
-                                    likeList.contains(
-                                            list[index].get('postID')) ==
-                                        true
-                                ? Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  )
-                                : Icon(
-                                    FontAwesomeIcons.heart,
-                                    color: null,
-                                  ),
-                            iconSize: 30.0,
-                            onPressed: () {
-                              print(likeList);
-                              likeList.contains(list[index].get('postID')) ==
-                                      true
-                                  ? likeList.removeWhere((element) =>
-                                      element == list[index].get('postID'))
-                                  : likeList.add(list[index].get('postID'));
-                              box.write('likeList', likeList);
-                              if (!_isLiked) {
-                                setState(() {
-                                  _isLiked = true;
-                                });
-                                // saveLikeValue(_isLiked);
-                                postLike(list[index].reference, currentUser);
-                              } else {
-                                setState(() {
-                                  _isLiked = false;
-                                });
-                                //saveLikeValue(_isLiked);
-                                postUnlike(list[index].reference, currentUser);
-                              }
-                            },
-                          ),
-                          SizedBox(width: 10.0),
-                          IconButton(
-                            icon: Icon(FontAwesomeIcons.comment),
-                            color: Colors.black,
-                            iconSize: 30.0,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => CommentsScreen(
-                                            documentReference:
-                                                list[index].reference,
-                                            user: currentUser,
-                                          ))));
-                            },
-                          ),
-                        ],
-                      ),
-                      Text("Price: ${list[index].get('price') ?? "price"}",
-                          style: TextStyle(fontWeight: FontWeight.bold))
-                      // IconButton(
-                      //   icon: Icon(Icons.bookmark_border),
-                      //   iconSize: 30.0,
-                      //   onPressed: () => print('Save post'),
-                      // ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                        "Payment Mode: ${list[index].get('paymentOption')}"),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                        "Quantity Available: ${list[index].get('quantity')}"),
-                  ),
-                ),
-                FutureBuilder(
-                  future: _feedsController
-                      .fetchPostLikeDetails(list[index].reference),
-                  builder: ((context,
-                      AsyncSnapshot<List<DocumentSnapshot>> likesSnapshot) {
-                    if (likesSnapshot.hasData) {
-                      return GestureDetector(
+        ],
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => LikesScreen(
-                                        user: currentUser,
-                                        documentReference:
-                                            list[index].reference,
+                                  builder: ((context) => FriendsFeedsProfile(
+                                        name: list[index].get('postOwnerName'),
                                       ))));
                         },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: likesSnapshot.data.length > 1
-                                ? Text(
-                                    "Liked by ${likesSnapshot.data[0].get('ownerName')} and ${(likesSnapshot.data.length - 1).toString()} others",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )
-                                : Text(likesSnapshot.data.length == 1
-                                    ? "Liked by ${likesSnapshot.data[0].get('ownerName')}"
-                                    : "0 Likes"),
+                        child: Container(
+                          width: 50.0,
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black45,
+                                offset: Offset(0.0, 2.0),
+                                blurRadius: 6.0,
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            child: ClipOval(
+                              child: Image(
+                                width: 50.0,
+                                height: 50.0,
+                                image: NetworkImage(
+                                    list[index].get('postOwnerPhotoUrl')),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        )),
+                    title: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => FriendsFeedsProfile(
+                                      name:
+                                          list[index].get('postOwnerName')))));
+                        },
+                        child: Text(
+                          list[index].get('postOwnerName'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                    subtitle: Row(
+                      children: [
+                        list[index].get('location') != null
+                            ? new Text(
+                                list[index].get('location'),
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            : Container(),
+                        SizedBox(width: 10),
+                        Text(Utils.readTimestamp(list[index].get('timestamp')),
+                            style: TextStyle(color: Colors.grey)),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.more_horiz),
+                      color: Colors.black,
+                      onPressed: () => print('More'),
+                    ),
+                  ),
+                  list[index].get('imgUrl') == 'NONE'
+                      ? const SizedBox()
+                      : InkWell(
+                          onDoubleTap: () {
+                            likeList.contains(list[index].get('postID')) == true
+                                ? likeList.removeWhere((element) =>
+                                    element == list[index].get('postID'))
+                                : likeList.add(list[index].get('postID'));
+                            setState(() {});
+                            if (!_isLiked) {
+                              setState(() {
+                                _isLiked = true;
+                              });
+                              // saveLikeValue(_isLiked);
+                              postLike(list[index].reference, currentUser);
+                            } else {
+                              setState(() {
+                                _isLiked = false;
+                              });
+                              //saveLikeValue(_isLiked);
+                              setState(() {});
+
+                              postUnlike(list[index].reference, currentUser);
+                            }
+                          },
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ShowFullImage(
+                            //       photoUrl: list[index].data()['imgUrl'],
+                            //     ),
+                            //   ),
+                            // );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (_) => ViewPostScreen(post: posts[index]),
+                            //   ),
+                            // );
+                          },
+                          child: FocusedMenuHolder(
+                            menuWidth: MediaQuery.of(context).size.width * 0.50,
+                            blurSize: 5.0,
+                            menuItemExtent: 45,
+                            menuBoxDecoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            duration: Duration(milliseconds: 100),
+                            animateMenuItems: true,
+                            blurBackgroundColor: Colors.black54,
+                            bottomOffsetHeight: 100,
+                            openWithTap: true,
+                            menuItems: <FocusedMenuItem>[
+                              FocusedMenuItem(
+                                  title: Text("View media"),
+                                  trailingIcon: Icon(Entypo.documents),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ShowFullImage(
+                                          photoUrl: list[index].get('imgUrl'),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                              FocusedMenuItem(
+                                  title: Text("Share Feed"),
+                                  trailingIcon: Icon(Entypo.paper_plane),
+                                  onPressed: () {}),
+                              FocusedMenuItem(
+                                  title: Text("Download Feed"),
+                                  trailingIcon: Icon(Entypo.download),
+                                  onPressed: () {}),
+                              FocusedMenuItem(
+                                  title: Text("Unfollow User",
+                                      style:
+                                          TextStyle(color: Colors.redAccent)),
+                                  trailingIcon: Icon(Entypo.log_out,
+                                      color: Colors.redAccent),
+                                  onPressed: () async {}),
+                            ],
+                            onPressed: () {},
+                            child: Container(
+                              margin: EdgeInsets.all(10.0),
+                              width: double.infinity,
+                              height: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Colors.grey[200],
+                                //     offset: Offset(0.0, 8.0),
+                                //     blurRadius: 8.0,
+                                //   ),
+                                // ],
+                                image: DecorationImage(
+                                  image:
+                                      NetworkImage(list[index].get('imgUrl')),
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  }),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8.0),
-                      child: list[index].get('caption') != null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Wrap(
-                                  children: <Widget>[
-                                    Text(list[index].get('postOwnerName'),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Text(list[index].get('caption')),
-                                      // child: LinkifyText(
-                                      //   list[index].get('caption'),
-                                      //   textColor: Colors.black54,
-                                      //   //fontSize: 15,
-                                      //   linkcolor: kPrimaryColor,
-                                      //   isLinkNavigationEnable: true,
-                                      //   // textAlign: TextAlign.start,
-                                      //   // style: TextStyle(fontSize: 15.0, color: Colors.white)
-                                      // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: _isLiked ||
+                                      likeList.contains(
+                                              list[index].get('postID')) ==
+                                          true
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
                                     )
-                                  ],
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: commentWidget(list[index].reference))
-                              ],
-                            )
-                          : commentWidget(list[index].reference)),
-                ),
-              ],
+                                  : Icon(
+                                      FontAwesomeIcons.heart,
+                                      color: null,
+                                    ),
+                              iconSize: 30.0,
+                              onPressed: () {
+                                print(likeList);
+                                likeList.contains(list[index].get('postID')) ==
+                                        true
+                                    ? likeList.removeWhere((element) =>
+                                        element == list[index].get('postID'))
+                                    : likeList.add(list[index].get('postID'));
+                                box.write('likeList', likeList);
+                                if (!_isLiked) {
+                                  setState(() {
+                                    _isLiked = true;
+                                  });
+                                  // saveLikeValue(_isLiked);
+                                  postLike(list[index].reference, currentUser);
+                                } else {
+                                  setState(() {
+                                    _isLiked = false;
+                                  });
+                                  //saveLikeValue(_isLiked);
+                                  postUnlike(
+                                      list[index].reference, currentUser);
+                                }
+                              },
+                            ),
+                            SizedBox(width: 10.0),
+                            IconButton(
+                              icon: Icon(FontAwesomeIcons.comment),
+                              color: Colors.black,
+                              iconSize: 30.0,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) => CommentsScreen(
+                                              documentReference:
+                                                  list[index].reference,
+                                              user: currentUser,
+                                            ))));
+                              },
+                            ),
+                          ],
+                        ),
+                        Text("Price: ${list[index].get('price') ?? "price"}",
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                        // IconButton(
+                        //   icon: Icon(Icons.bookmark_border),
+                        //   iconSize: 30.0,
+                        //   onPressed: () => print('Save post'),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                          "Payment Mode: ${list[index].get('paymentOption')}"),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                          "Quantity Available: ${list[index].get('quantity')}"),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: _feedsController
+                        .fetchPostLikeDetails(list[index].reference),
+                    builder: ((context,
+                        AsyncSnapshot<List<DocumentSnapshot>> likesSnapshot) {
+                      if (likesSnapshot.hasData) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => LikesScreen(
+                                          user: currentUser,
+                                          documentReference:
+                                              list[index].reference,
+                                        ))));
+                          },
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: likesSnapshot.data.length > 1
+                                  ? Text(
+                                      "Liked by ${likesSnapshot.data[0].get('ownerName')} and ${(likesSnapshot.data.length - 1).toString()} others",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text(likesSnapshot.data.length == 1
+                                      ? "Liked by ${likesSnapshot.data[0].get('ownerName')}"
+                                      : "0 Likes"),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 8.0),
+                        child: list[index].get('caption') != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Wrap(
+                                    children: <Widget>[
+                                      Text(list[index].get('postOwnerName'),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Text(list[index].get('caption')),
+                                        // child: LinkifyText(
+                                        //   list[index].get('caption'),
+                                        //   textColor: Colors.black54,
+                                        //   //fontSize: 15,
+                                        //   linkcolor: kPrimaryColor,
+                                        //   isLinkNavigationEnable: true,
+                                        //   // textAlign: TextAlign.start,
+                                        //   // style: TextStyle(fontSize: 15.0, color: Colors.white)
+                                        // ),
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 4.0),
+                                      child:
+                                          commentWidget(list[index].reference))
+                                ],
+                              )
+                            : commentWidget(list[index].reference)),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

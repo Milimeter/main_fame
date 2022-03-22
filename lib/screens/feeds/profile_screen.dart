@@ -19,7 +19,6 @@ import 'package:login_signup_screen/screens/feeds/post_detail_screen.dart';
 import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   // ProfileScreen();
 
@@ -58,235 +57,234 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: PickupLayout(
-              scaffold: Scaffold(
-            appBar: AppBar(
-              backgroundColor: new Color(0xfff8faf8),
-              elevation: 1,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-                onPressed: () => Get.back(),
-              ),
-              title: Text(
-                'Profile',
-                style: TextStyle(color: Colors.black),
-              ),
-              // actions: <Widget>[
-              //   IconButton(
-              //     icon: Icon(Icons.settings_power),
-              //     color: Colors.black,
-              //     onPressed: () {
-              //       _repository.signOut().then((v) {
-              //         Navigator.pushReplacement(context,
-              //             MaterialPageRoute(builder: (context) {
-              //           return MyApp();
-              //         }));
-              //       });
-              //     },
-              //   )
-              // ],
+        scaffold: Scaffold(
+          appBar: AppBar(
+            backgroundColor: new Color(0xfff8faf8),
+            elevation: 1,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+              onPressed: () => Get.back(),
             ),
-            body: _user != null
-                ? ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0, left: 20.0),
-                            child: Container(
-                                width: 110.0,
-                                height: 110.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black45,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 6.0,
-                                    ),
-                                  ],
-                                  image: DecorationImage(
-                                      image: _user.profilePhoto.isEmpty
-                                          ? AssetImage('assets/no_image.png')
-                                          : NetworkImage(_user.profilePhoto),
-                                      fit: BoxFit.cover),
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    StreamBuilder(
-                                      stream: _feedsController
-                                          .fetchStats(
-                                              uid: _user.uid, label: 'posts')
-                                          .asStream(),
-                                      builder: ((context,
-                                          AsyncSnapshot<List<DocumentSnapshot>>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          return detailsWidget(
+            title: Text(
+              'Profile',
+              style: TextStyle(color: Colors.black),
+            ),
+            // actions: <Widget>[
+            //   IconButton(
+            //     icon: Icon(Icons.settings_power),
+            //     color: Colors.black,
+            //     onPressed: () {
+            //       _repository.signOut().then((v) {
+            //         Navigator.pushReplacement(context,
+            //             MaterialPageRoute(builder: (context) {
+            //           return MyApp();
+            //         }));
+            //       });
+            //     },
+            //   )
+            // ],
+          ),
+          body: _user != null
+              ? ListView(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0, left: 20.0),
+                          child: Container(
+                              width: 110.0,
+                              height: 110.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    offset: Offset(0.0, 2.0),
+                                    blurRadius: 6.0,
+                                  ),
+                                ],
+                                image: DecorationImage(
+                                    image: _user.profilePhoto.isEmpty
+                                        ? AssetImage('assets/no_image.png')
+                                        : NetworkImage(_user.profilePhoto),
+                                    fit: BoxFit.cover),
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  StreamBuilder(
+                                    stream: _feedsController
+                                        .fetchStats(
+                                            uid: _user.uid, label: 'posts')
+                                        .asStream(),
+                                    builder: ((context,
+                                        AsyncSnapshot<List<DocumentSnapshot>>
+                                            snapshot) {
+                                      if (snapshot.hasData) {
+                                        return detailsWidget(
+                                            snapshot.data.length.toString(),
+                                            'posts');
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
+                                  ),
+                                  StreamBuilder(
+                                    stream: _feedsController
+                                        .fetchStats(
+                                            uid: _user.uid, label: 'followers')
+                                        .asStream(),
+                                    builder: ((context,
+                                        AsyncSnapshot<List<DocumentSnapshot>>
+                                            snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 24.0),
+                                          child: detailsWidget(
                                               snapshot.data.length.toString(),
-                                              'posts');
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      }),
-                                    ),
-                                    StreamBuilder(
-                                      stream: _feedsController
-                                          .fetchStats(
-                                              uid: _user.uid, label: 'followers')
-                                          .asStream(),
-                                      builder: ((context,
-                                          AsyncSnapshot<List<DocumentSnapshot>>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 24.0),
-                                            child: detailsWidget(
-                                                snapshot.data.length.toString(),
-                                                'followers'),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      }),
-                                    ),
-                                    StreamBuilder(
-                                      stream: _feedsController
-                                          .fetchStats(
-                                              uid: _user.uid, label: 'following')
-                                          .asStream(),
-                                      builder: ((context,
-                                          AsyncSnapshot<List<DocumentSnapshot>>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 20.0),
-                                            child: detailsWidget(
-                                                snapshot.data.length.toString(),
-                                                'following'),
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      }),
-                                    ),
-                                  ],
-                                ),
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12.0, left: 20.0, right: 20.0),
-                                    child: Container(
-                                      width: 210.0,
-                                      height: 30.0,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.grey)),
-                                      child: Center(
-                                        child: Text('Edit Profile',
-                                            style:
-                                                TextStyle(color: Colors.black)),
-                                      ),
+                                              'followers'),
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
+                                  ),
+                                  StreamBuilder(
+                                    stream: _feedsController
+                                        .fetchStats(
+                                            uid: _user.uid, label: 'following')
+                                        .asStream(),
+                                    builder: ((context,
+                                        AsyncSnapshot<List<DocumentSnapshot>>
+                                            snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20.0),
+                                          child: detailsWidget(
+                                              snapshot.data.length.toString(),
+                                              'following'),
+                                        );
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12.0, left: 20.0, right: 20.0),
+                                  child: Container(
+                                    width: 210.0,
+                                    height: 30.0,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                        border: Border.all(color: Colors.grey)),
+                                    child: Center(
+                                      child: Text('Edit Profile',
+                                          style:
+                                              TextStyle(color: Colors.black)),
                                     ),
                                   ),
-                                  onTap: () {
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: ((context) =>
-                                    //             EditProfileScreen(
-                                    //                 photoUrl: _user.photoUrl,
-                                    //                 email: _user.email,
-                                    //                 bio: _user.bio,
-                                    //                 name: _user.displayName,
-                                    //                 phone: _user.phone))));
-                                  },
-                                )
-                              ],
+                                ),
+                                onTap: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: ((context) =>
+                                  //             EditProfileScreen(
+                                  //                 photoUrl: _user.photoUrl,
+                                  //                 email: _user.email,
+                                  //                 bio: _user.bio,
+                                  //                 name: _user.displayName,
+                                  //                 phone: _user.phone))));
+                                },
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, top: 30.0),
+                      child: Text(_user.name,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, top: 10.0),
+                      child:
+                          _user.bio.isNotEmpty ? Text(_user.bio) : Container(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Divider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          GestureDetector(
+                            child: Icon(
+                              Icons.grid_on,
+                              color: _gridColor,
                             ),
+                            onTap: () {
+                              setState(() {
+                                _isGridActive = true;
+                                _gridColor = Colors.blue;
+                                _listColor = Colors.grey;
+                              });
+                            },
+                          ),
+                          GestureDetector(
+                            child: Icon(
+                              Icons.stay_current_portrait,
+                              color: _listColor,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _isGridActive = false;
+                                _listColor = Colors.blue;
+                                _gridColor = Colors.grey;
+                              });
+                            },
                           )
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25.0, top: 30.0),
-                        child: Text(_user.name,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25.0, top: 10.0),
-                        child:
-                            _user.bio.isNotEmpty ? Text(_user.bio) : Container(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Divider(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            GestureDetector(
-                              child: Icon(
-                                Icons.grid_on,
-                                color: _gridColor,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _isGridActive = true;
-                                  _gridColor = Colors.blue;
-                                  _listColor = Colors.grey;
-                                });
-                              },
-                            ),
-                            GestureDetector(
-                              child: Icon(
-                                Icons.stay_current_portrait,
-                                color: _listColor,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _isGridActive = false;
-                                  _listColor = Colors.blue;
-                                  _gridColor = Colors.grey;
-                                });
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Divider(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: postImagesWidget(),
-                      ),
-                    ],
-                  )
-                : Center(child: CircularProgressIndicator()),
-         
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Divider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: postImagesWidget(),
+                    ),
+                  ],
+                )
+              : Center(child: CircularProgressIndicator()),
         ),
       ),
     );
@@ -300,40 +298,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ((context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 4.0),
-                    itemBuilder: ((context, index) {
-                      return GestureDetector(
-                        child: CachedNetworkImage(
-                          imageUrl: snapshot.data[index].get('imgUrl'),
-                          placeholder: ((context, s) => Center(
-                                child: CircularProgressIndicator(),
-                              )),
-                          width: 125.0,
-                          height: 125.0,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () {
-                          print(
-                              "SNAPSHOT : ${snapshot.data[index].reference.path}");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => PostDetailScreen(
-                                        user: _user,
-                                        currentuser: _user,
-                                        documentSnapshot: snapshot.data[index],
-                                      ))));
-                        },
-                      );
-                    }),
+                  return SizedBox(
+                      height: 600.0,
+                    child: GridView.builder(
+                      // shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 4.0),
+                      itemBuilder: ((context, index) {
+                        return GestureDetector(
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data[index].get('imgUrl'),
+                            placeholder: ((context, s) => Center(
+                                  child: CircularProgressIndicator(),
+                                )),
+                            width: 125.0,
+                            height: 125.0,
+                            fit: BoxFit.cover,
+                          ),
+                          onTap: () {
+                            print(
+                                "SNAPSHOT : ${snapshot.data[index].reference.path}");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => PostDetailScreen(
+                                          user: _user,
+                                          currentuser: _user,
+                                          documentSnapshot: snapshot.data[index],
+                                        ))));
+                          },
+                        );
+                      }),
+                    ),
                   );
-                } else if (snapshot.hasError) {
+                } else {
                   return Center(
                     child: Text('No Posts Found'),
                   );
@@ -442,7 +443,6 @@ class _ListItemState extends State<ListItem> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
       child: Container(
