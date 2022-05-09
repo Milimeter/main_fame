@@ -75,7 +75,7 @@ class _InstaAddScreenState extends State<InstaAddScreen> {
   }
 
   cropImage(File image) async {
-    File croppedImage = await ImageCropper.cropImage(
+    File croppedImage = await ImageCropper().cropImage(
         sourcePath: image.path, compressQuality: 100);
 
     setState(() {

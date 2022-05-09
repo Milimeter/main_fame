@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,13 +40,21 @@ class UserController extends GetxController {
   _setInitialScreen(User user) {
     bool onInstall = box.read("FreshInstall");
     if (onInstall == true || onInstall == null) {
-      Get.offAll(OnBoarding());
+      Timer(const Duration(seconds: 4), () {
+        Get.offAll(OnBoarding());
+      });
     } else {
       if (user == null) {
-        Get.offAll(() => WelcomeScreen());
+        print("user is null");
+        Timer(const Duration(seconds: 4), () {
+          Get.offAll(OnBoarding());
+        });
       } else {
+        print("user is not null");
         userData.bindStream(listenToUser());
-        Get.offAll(() => HomeScreen());
+        Timer(const Duration(seconds: 4), () {
+          Get.offAll(() => HomeScreen());
+        });
       }
     }
   }
@@ -59,12 +69,14 @@ class UserController extends GetxController {
               email: emailTextEditingController.text.trim(),
               password: passwordTextEditingController.text.trim())
           .then((result) {
-        userData.bindStream(listenToUser());
-        print("=========================== user sign in =================");
-        _clearControllers();
-        // Get.offAll(HomePage());
+        if (result.user != null) {
+          userData.bindStream(listenToUser());
+          print("=========================== user sign in =================");
+          _clearControllers();
+          //Get.offAll(HomeScreen());
+        }
       });
-      dismissLoading();
+      //dismissLoading();
     } catch (e) {
       dismissLoading();
       var error = e.toString().split("]");
@@ -227,7 +239,6 @@ class UserController extends GetxController {
     print("=========================== Listen to user =================");
     print(firebaseUser.value.uid);
     print(firebaseUser.value.email);
-    User user = auth.currentUser;
     return FirebaseFirestore.instance
         .collection(usersCollection)
         .doc(firebaseUser.value.uid)

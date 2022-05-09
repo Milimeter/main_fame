@@ -9,6 +9,7 @@ import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/utils/permissions.dart';
 import 'package:login_signup_screen/utils/text_styles.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
+import 'package:login_signup_screen/widgets/custom_text.dart';
 
 class LiveStreamPage extends StatelessWidget {
   final UserController _userController = Get.find();
@@ -128,26 +129,6 @@ class LiveStreamPage extends StatelessWidget {
       scaffold: Scaffold(
         body: Stack(
           children: [
-            Positioned(
-              bottom: 0,
-              child: CustomPaint(
-                size: Size(
-                    WIDTH,
-                    (HEIGHT * 0.5)
-                        .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                painter: RPSCustomPainter(),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: CustomPaint(
-                size: Size(
-                    WIDTH,
-                    (HEIGHT * 0.375)
-                        .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                painter: RPSCustomPainter(),
-              ),
-            ),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -156,12 +137,11 @@ class LiveStreamPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Hi, ${_userController.userData.value.username}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        CText(
+                          text:
+                              "Hi, ${_userController.userData.value.username}",
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
                         ),
                         CachedImage(
                           //pass to profile of the receiver
@@ -173,7 +153,7 @@ class LiveStreamPage extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     startBroadcast(context),
-                    SizedBox(height: 20),
+                    SizedBox(height: 40),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -207,67 +187,6 @@ class LiveStreamPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class RPSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint_0 = new Paint()
-      ..color = kPrimaryColor
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1;
-
-    Path path_0 = Path();
-    path_0.moveTo(0, size.height * 0.1250000);
-    path_0.quadraticBezierTo(size.width * 0.3087500, size.height * 0.4993750,
-        size.width * 0.6812500, size.height * 0.5575000);
-    path_0.quadraticBezierTo(size.width * 0.8515625, size.height * 0.5725000,
-        size.width, size.height * 0.3950000);
-    path_0.quadraticBezierTo(size.width * 1.0003125, size.height * 0.5431250,
-        size.width, size.height);
-    path_0.lineTo(size.width * 0.0012500, size.height * 0.9950000);
-    path_0.quadraticBezierTo(size.width * 0.0009375, size.height * 0.7775000, 0,
-        size.height * 0.1250000);
-    path_0.close();
-
-    canvas.drawPath(path_0, paint_0);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class PSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint_0 = new Paint()
-      ..color = Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1;
-
-    Path path_0 = Path();
-    path_0.moveTo(0, size.height * 0.1600000);
-    path_0.quadraticBezierTo(size.width * 0.2493750, size.height * 0.6966667,
-        size.width * 0.3675000, size.height * 0.5600000);
-    path_0.quadraticBezierTo(size.width * 0.5800000, size.height * 0.1641667,
-        size.width * 0.8125000, size.height * 0.1700000);
-    path_0.quadraticBezierTo(size.width * 0.9381250, size.height * 0.2025000,
-        size.width * 0.9987500, size.height * 0.4333333);
-    path_0.lineTo(size.width, size.height * 0.9966667);
-    path_0.lineTo(size.width * 0.0012500, size.height * 0.9966667);
-    path_0.quadraticBezierTo(size.width * 0.0009375, size.height * 0.7875000, 0,
-        size.height * 0.1600000);
-    path_0.close();
-
-    canvas.drawPath(path_0, paint_0);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }
 

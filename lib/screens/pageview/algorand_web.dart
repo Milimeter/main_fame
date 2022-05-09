@@ -15,7 +15,7 @@ class _AlgoWebState extends State<AlgoWeb> {
         child: Stack(
           children: <Widget>[
             WebView(
-              initialUrl: "https://jaysource-35af0.web.app/",
+              initialUrl: "https://app.humble.sh/swap", 
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (finish) {
                 setState(() {

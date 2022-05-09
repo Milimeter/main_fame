@@ -730,7 +730,8 @@ class _BroadcastPageState extends State<BroadcastPage> {
                       elevation: 2.0,
                       color: kPrimaryColor,
                       onPressed: () async {
-                        await Wakelock.disable();
+                        // await Wakelock.disable();
+                        //Navigator.pop(context);
                         //_leaveChannel();
                         _engine.leaveChannel();
                         _engine.destroy();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:login_signup_screen/screens/auth/login.dart';
 import 'package:login_signup_screen/screens/auth/signup.dart';
@@ -31,12 +32,12 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
-        Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
-    Container(
+    return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/bfarm.jpeg"),
+          image: AssetImage("assets/images/afarm.jpeg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.6),
@@ -64,22 +65,24 @@ class _OnBoardingState extends State<OnBoarding> {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: CText(
-                                text: "Welcome",
+                                text: "Welcome to FAME",
                                 fontWeight: FontWeight.w600,
                                 size: 25,
                                 color: kWhiteColor,
                                 bold: true,
+                                fontFamily: "AvenirNext-Bold",
                               ),
                             ),
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: CText(
                                 text:
-                                    "MEDFESTCARE: You don't have to worry about healthcare bills anymore ",
+                                    "Create your gallery of products and transact easily in \$ALGO and \$FAME",
                                 color: kWhiteColor,
                                 fontWeight: FontWeight.w600,
                                 size: 14,
                                 textAlign: TextAlign.start,
+                                fontFamily: "AvenirNext-UltraLight",
                               ),
                             ),
                             SizedBox(height: constraints.maxHeight * 0.04),
@@ -87,14 +90,15 @@ class _OnBoardingState extends State<OnBoarding> {
                               onTap: () async {
                                 // await Storage.setStep("login");
                                 // Get.offAllNamed(Routes.LOGIN);
+                                box.write("FreshInstall", false);
+                                Get.to(() => LoginPage());
                               },
                               child: Container(
                                 height: 60,
                                 width: constraints.maxWidth,
                                 decoration: BoxDecoration(
                                     color: kPrimaryColor,
-                                    borderRadius:
-                                        BorderRadius.circular(20)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: const Center(
                                   child: CText(
                                     text: "Sign in",
@@ -110,6 +114,8 @@ class _OnBoardingState extends State<OnBoarding> {
                               onTap: () async {
                                 // await Storage.setStep("sign_up");
                                 // Get.offAllNamed(Routes.SIGN_UP);
+                                box.write("FreshInstall", false);
+                                Get.to(() => SignupPage());
                               },
                               child: Container(
                                 height: 60,
@@ -117,8 +123,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: kWhiteColor, width: 1.5),
-                                    borderRadius:
-                                        BorderRadius.circular(20)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: const Center(
                                   child: CText(
                                     text: "Create an account",
@@ -141,7 +146,7 @@ class _OnBoardingState extends State<OnBoarding> {
         ),
       ),
     );
-    
+
     // return Scaffold(
     //   body: Column(
     //     children: [
@@ -168,23 +173,23 @@ class _OnBoardingState extends State<OnBoarding> {
     //                       //height: 500,
     //                     ),
     //                   ),
-                      // Text(
-                      //   contents[i].title,
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     fontSize: 25,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
+    // Text(
+    //   contents[i].title,
+    //   textAlign: TextAlign.center,
+    //   style: TextStyle(
+    //     fontSize: 25,
+    //     fontWeight: FontWeight.bold,
+    //   ),
+    // ),
     //                   SizedBox(height: 20),
-                      // Text(
-                      //   contents[i].discription,
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     fontSize: 18,
-                      //     color: Colors.grey,
-                      //   ),
-                      // )
+    // Text(
+    //   contents[i].discription,
+    //   textAlign: TextAlign.center,
+    //   style: TextStyle(
+    //     fontSize: 18,
+    //     color: Colors.grey,
+    //   ),
+    // )
     //                 ],
     //               ),
     //             );
@@ -233,7 +238,6 @@ class _OnBoardingState extends State<OnBoarding> {
     //     ],
     //   ),
     // );
-  
   }
 
   Container buildDot(int index, BuildContext context) {

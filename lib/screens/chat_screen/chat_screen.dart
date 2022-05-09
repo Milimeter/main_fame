@@ -26,7 +26,6 @@ import 'package:login_signup_screen/screens/chat_screen/widget/reply_message_wid
 import 'package:login_signup_screen/utils/call_utils.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/utils/permissions.dart';
-import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/algo_app_bar/message_app_bar_action.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
@@ -350,11 +349,11 @@ class _ChatScreenState extends State<ChatScreen> {
               //         callis: "voice")
               //     : null;
             }),
-        Icon(
-          FontAwesomeIcons.infoCircle,
-          color: kPrimaryColor,
-          size: 20.0,
-        ),
+        // Icon(
+        //   FontAwesomeIcons.infoCircle,
+        //   color: kPrimaryColor,
+        //   size: 20.0,
+        // ),
       ],
     );
   }

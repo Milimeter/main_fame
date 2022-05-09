@@ -61,6 +61,7 @@ class _MyHomePageState extends State<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
             child: GNav(
+              haptic: false,
               rippleColor: Colors.grey[300],
               hoverColor: Colors.grey[100],
               gap: 8,

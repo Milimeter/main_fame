@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
@@ -22,7 +23,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   ScrollController _controller;
   bool _isScroll = false;
   ChatMethods _chatMethods = ChatMethods();
-  
+
   _scrollListener() {
     if (_controller.offset > 0) {
       this.setState(() {
@@ -38,15 +39,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
-   
+
     super.initState();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return PickupLayout(
-          scaffold: NotificationListener<OverscrollIndicatorNotification>(
+      scaffold: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
         },
@@ -86,14 +86,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   // if (index == 0) {
                   //   return _buildSearchBar();
                   // } else {
-                    try {
-                      Contact contact = Contact.fromMap(docList[index].data());
+                  try {
+                    Contact contact = Contact.fromMap(docList[index].data());
 
-                      return ContactView(contact);
-                    } catch (e) {
-                      return Text("");
-                    }
-                //  }
+                    return ContactView(contact);
+                  } catch (e) {
+                    return Text("");
+                  }
+                  //  }
                 },
               );
             }
@@ -151,7 +151,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> LogScreen()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => LogScreen()));
           },
           child: Container(
             width: 40.0,
@@ -161,7 +162,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
               color: Colors.grey.shade200,
             ),
             child: Icon(
-              FontAwesomeIcons.camera,
+              Feather.phone_call,
               size: 18.0,
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_signup_screen/constants/controllers.dart';
 import 'package:login_signup_screen/screens/auth/login.dart';
 import 'package:login_signup_screen/utils/colors.dart';
+import 'package:login_signup_screen/widgets/custom_text.dart';
 
 class SignupPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -51,45 +52,69 @@ class SignupPage extends StatelessWidget {
       // ),
       body: Stack(
         children: [
+          Container(
+            padding: EdgeInsets.all(18),
+            width: scrWidth,
+            height: scrHeight,
+            color: kPrimaryColor,
+            child: Column(
+              children: [
+                SizedBox(height: 50),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CText(
+                    text: "Sign up",
+                    fontWeight: FontWeight.w600,
+                    size: 25,
+                    color: kWhiteColor,
+                    bold: true,
+                    fontFamily: "AvenirNext-Bold",
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CText(
+                    text: "Create a new account to continue",
+                    color: kWhiteColor,
+                    fontWeight: FontWeight.w600,
+                    size: 14,
+                    textAlign: TextAlign.start,
+                    fontFamily: "AvenirNext-UltraLight",
+                  ),
+                ),
+              ],
+            ),
+          ),
           SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 40),
-                height: MediaQuery.of(context).size.height - 50,
+                margin: EdgeInsets.only(top: scrHeight * 0.2),
+                height: MediaQuery.of(context).size.height,
                 width: double.infinity,
+                decoration: BoxDecoration(
+                  color: kWhiteColor,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                  ),
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Text(
-                          "Sign up",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Create an account, It's free ",
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.grey[700]),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
+                        SizedBox(height: scrHeight * 0.05),
                         inputFile(
-                            label: "name",
+                            label: "Name",
                             controller:
                                 userController.nameTextEditingController),
+                        SizedBox(height: scrHeight * 0.02),
                         inputFile(
                             label: "Email",
                             controller:
                                 userController.emailTextEditingController),
+                        SizedBox(height: scrHeight * 0.02),
                         inputFile(
                             label: "Password",
                             obscureText: true,
@@ -97,6 +122,7 @@ class SignupPage extends StatelessWidget {
                                 userController.passwordTextEditingController),
                       ],
                     ),
+                    SizedBox(height: scrHeight * 0.05),
                     Container(
                       padding: EdgeInsets.only(top: 3, left: 3),
                       decoration: BoxDecoration(
@@ -113,7 +139,7 @@ class SignupPage extends StatelessWidget {
                         onPressed: () {
                           validateAndSubmit();
                         },
-                        color: Color(0xFF56AC55),
+                        color: kPrimaryColor,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
@@ -128,6 +154,7 @@ class SignupPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: scrHeight * 0.1),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(
@@ -152,24 +179,6 @@ class SignupPage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ),
-
-          ClipPath(
-            clipper: OuterClippedPart(),
-            child: Container(
-              color: kPrimaryColor,
-              width: scrWidth,
-              height: scrHeight,
-            ),
-          ),
-          //
-          ClipPath(
-            clipper: InnerClippedPart(),
-            child: Container(
-              color: kPrimaryColor.withOpacity(0.5),
-              width: scrWidth,
-              height: scrHeight,
             ),
           ),
         ],

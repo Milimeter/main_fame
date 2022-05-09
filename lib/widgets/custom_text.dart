@@ -10,6 +10,7 @@ class CText extends StatelessWidget {
   final double letterSpacing;
   final TextAlign textAlign;
   final bool bold;
+  final String fontFamily;
 
   const CText(
       {Key key,
@@ -21,7 +22,7 @@ class CText extends StatelessWidget {
       this.onClick,
       this.letterSpacing,
       this.bold = false,
-      this.textAlign})
+      this.textAlign, this.fontFamily})
       : super(key: key);
 
   @override
@@ -37,7 +38,7 @@ class CText extends StatelessWidget {
                 color: color ?? Colors.grey,
                 wordSpacing: wordSpacing,
                 letterSpacing: letterSpacing ?? 0,
-                fontFamily: bold == true ? "Booing" : "Graphik",
+                fontFamily: fontFamily ?? "AvenirNext-Medium",
               ),
             )
           : TextButton(

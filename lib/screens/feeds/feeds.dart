@@ -29,6 +29,7 @@ import 'package:login_signup_screen/screens/feeds/search_screen.dart';
 import 'package:login_signup_screen/utils/colors.dart';
 import 'package:login_signup_screen/utils/utilities.dart';
 import 'package:login_signup_screen/widgets/cached_image.dart';
+import 'package:login_signup_screen/widgets/custom_text.dart';
 import 'package:login_signup_screen/widgets/show_full_image.dart';
 
 class Feeds extends StatefulWidget {
@@ -114,72 +115,76 @@ class _FeedsState extends State<Feeds> {
     print("=============build called ==============");
     return PickupLayout(
       scaffold: Scaffold(
-        appBar: AppBar(
-            backgroundColor: new Color(0xfff8faf8),
-            centerTitle: true,
-            elevation: 1.0,
-            // leading: new Icon(Icons.camera_alt),
-            title: GestureDetector(
-              onTap: () {
-                Get.to(SearchScreen());
-              },
-              child: Text("Add Friends",
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  )),
-            ),
-            leading: GestureDetector(
-              onTap: () => Get.to(ProfileScreen()),
-              child: CachedImage(
-                //pass to profile of the receiver
-                _userController.userData.value.profilePhoto,
-                radius: 50,
-                isRound: true,
-              ),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Entypo.magnifying_glass,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => Search())));
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70.0),
+          child: AppBar(
+              backgroundColor: kPrimaryColor,
+              centerTitle: true,
+              elevation: 1.0,
+              // leading: new Icon(Icons.camera_alt),
+              title: GestureDetector(
+                onTap: () {
+                  Get.to(SearchScreen());
                 },
+                child: CText(
+                  text: "Add Friends",
+                  color: kWhiteColor,
+                  size: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'AvenirNext-DemiBold',
+                ),
               ),
-            ]
-            // actions: <Widget>[
-            //   Padding(
-            //     padding: const EdgeInsets.only(right: 12.0),
-            //     child: IconButton(
-            //       icon: Icon(
-            //         Icons.live_tv,
-            //         color: Colors.black,
-            //       ),
-            //       onPressed: () {
-            //         Navigator.push(context,
-            //             MaterialPageRoute(builder: ((context) => ChooseCall())));
-            //       },
-            //     ),
-            //   ),
-            //   // Padding(
-            //   //   padding: const EdgeInsets.only(right: 12.0),
-            //   //   child: IconButton(
-            //   //     icon: Icon(
-            //   //       Entypo.magnifying_glass,
-            //   //       color: Colors.black,
-            //   //     ),
-            //   //     onPressed: () {
-            //   //       Navigator.push(context,
-            //   //           MaterialPageRoute(builder: ((context) => Search())));
-            //   //     },
-            //   //   ),
-            //   // )
-            // ],
-            ),
+              // leading: GestureDetector(
+              //   onTap: () => Get.to(ProfileScreen()),
+              //   child: CachedImage(
+              //     //pass to profile of the receiver
+              //     _userController.userData.value.profilePhoto,
+              //     radius: 20,
+              //     isRound: true,
+              //   ),
+              // ),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Entypo.magnifying_glass,
+                    color: kWhiteColor,
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => Search())));
+                  },
+                ),
+              ]
+              // actions: <Widget>[
+              //   Padding(
+              //     padding: const EdgeInsets.only(right: 12.0),
+              //     child: IconButton(
+              //       icon: Icon(
+              //         Icons.live_tv,
+              //         color: Colors.black,
+              //       ),
+              //       onPressed: () {
+              //         Navigator.push(context,
+              //             MaterialPageRoute(builder: ((context) => ChooseCall())));
+              //       },
+              //     ),
+              //   ),
+              //   // Padding(
+              //   //   padding: const EdgeInsets.only(right: 12.0),
+              //   //   child: IconButton(
+              //   //     icon: Icon(
+              //   //       Entypo.magnifying_glass,
+              //   //       color: Colors.black,
+              //   //     ),
+              //   //     onPressed: () {
+              //   //       Navigator.push(context,
+              //   //           MaterialPageRoute(builder: ((context) => Search())));
+              //   //     },
+              //   //   ),
+              //   // )
+              // ],
+              ),
+        ),
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 20),
           child: FloatingActionButton(
@@ -315,12 +320,13 @@ class _FeedsState extends State<Feeds> {
                 );
               }
             },
-            color:
-                list[index].get('ownerUid') != currentUser.uid ? kPrimaryColor : Colors.grey[100],
+            color: list[index].get('ownerUid') != currentUser.uid
+                ? kPrimaryColor
+                : Colors.grey[100],
           ),
         ],
         child: Padding(
-          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 15.0),
+          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -486,11 +492,11 @@ class _FeedsState extends State<Feeds> {
                             ],
                             onPressed: () {},
                             child: Container(
-                              margin: EdgeInsets.all(10.0),
+                              margin: EdgeInsets.symmetric(vertical: 10.0),
                               width: double.infinity,
                               height: 400.0,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25.0),
+                                borderRadius: BorderRadius.circular(0.0),
                                 // boxShadow: [
                                 //   BoxShadow(
                                 //     color: Colors.grey[200],
